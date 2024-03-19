@@ -1,0 +1,16 @@
+################################################################################
+# Este arquivo .gitignore foi criado automaticamente pelo Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/geekCommerce/DesignTimeBuild
+/.vs/geekCommerce/v17
+/GeekCommerce.Core/bin/Debug/net8.0
+/GeekCommerce.Core/obj/Debug/net8.0
+/GeekCommerce.Core/obj
+/.vs/geekCommerce/FileContentIndex
+/.vs/
+/GeekCommerce.Dal/bin/Debug/net8.0
+/GeekCommerce.Dal/obj/Debug/net8.0
+/GeekCommerce.Dal/obj
+/GeekCommerce.Web/bin/Debug/net8.0
+/GeekCommerce.Web/obj
