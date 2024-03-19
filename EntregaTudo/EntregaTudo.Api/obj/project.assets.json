@@ -3208,11 +3208,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lucas\\Desktop\\EntregaTudo\\EntregaTudo\\EntregaTudo.Api\\EntregaTudo.Api.csproj",
+      "projectUniqueName": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Api\\EntregaTudo.Api.csproj",
       "projectName": "EntregaTudo.Api",
-      "projectPath": "C:\\Users\\Lucas\\Desktop\\EntregaTudo\\EntregaTudo\\EntregaTudo.Api\\EntregaTudo.Api.csproj",
+      "projectPath": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Api\\EntregaTudo.Api.csproj",
       "packagesPath": "C:\\Users\\Lucas\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Lucas\\Desktop\\EntregaTudo\\EntregaTudo\\EntregaTudo.Api\\obj\\",
+      "outputPath": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\DevExpress 23.1\\Components\\Offline Packages",
@@ -3241,8 +3241,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Lucas\\Desktop\\EntregaTudo\\EntregaTudo\\EntregaTudo.Dal\\EntregaTudo.Dal.csproj": {
-              "projectPath": "C:\\Users\\Lucas\\Desktop\\EntregaTudo\\EntregaTudo\\EntregaTudo.Dal\\EntregaTudo.Dal.csproj"
+            "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Dal\\EntregaTudo.Dal.csproj": {
+              "projectPath": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Dal\\EntregaTudo.Dal.csproj"
             }
           }
         }

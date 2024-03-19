@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "BUEcHNFCPUsiE30xEA4tVjgAkPyhQ821GOC4hxAzsN6PMaPPlVhkkBKWwvzWM3KYA7WrRr3lzKxNCxrTXKzyRQ==",
+  "dgSpecHash": "+VA7tsm5T3TL8BJu2j2pMZnBNjAYYxZkOpoWT6rfxJJs6QdQ5bq9C7oDvWKNJJvzbyXiCb2xyxtL0StWXz+Lbw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Lucas\\Desktop\\EntregaTudo\\EntregaTudo\\EntregaTudo.Dal\\EntregaTudo.Dal.csproj",
+  "projectFilePath": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Dal\\EntregaTudo.Dal.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lucas\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Lucas\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

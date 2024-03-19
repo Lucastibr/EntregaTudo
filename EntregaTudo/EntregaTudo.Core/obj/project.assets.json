@@ -16,11 +16,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lucas\\Desktop\\EntregaTudo\\EntregaTudo\\EntregaTudo.Core\\EntregaTudo.Core.csproj",
+      "projectUniqueName": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Core\\EntregaTudo.Core.csproj",
       "projectName": "EntregaTudo.Core",
-      "projectPath": "C:\\Users\\Lucas\\Desktop\\EntregaTudo\\EntregaTudo\\EntregaTudo.Core\\EntregaTudo.Core.csproj",
+      "projectPath": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Core\\EntregaTudo.Core.csproj",
       "packagesPath": "C:\\Users\\Lucas\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Lucas\\Desktop\\EntregaTudo\\EntregaTudo\\EntregaTudo.Core\\obj\\",
+      "outputPath": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Core\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\DevExpress 23.1\\Components\\Offline Packages",
