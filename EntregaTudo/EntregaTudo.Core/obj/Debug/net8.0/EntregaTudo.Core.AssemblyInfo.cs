@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EntregaTudo.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+424a50656f031affe11f5bec9b2257dcee6d4cb7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+72b803862c643037cc097c7f66ac8cbf173a9985")]
 [assembly: System.Reflection.AssemblyProductAttribute("EntregaTudo.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EntregaTudo.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
