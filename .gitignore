@@ -2,16 +2,13 @@
 # Este arquivo .gitignore foi criado automaticamente pelo Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/EntregaTudo/DesignTimeBuild
-/.vs/EntregaTudo/v17
-/EntregaTudo.Core/bin/Debug/net8.0
-/EntregaTudo.Core/obj/Debug/net8.0
-/EntregaTudo.Core/obj
-/.vs/EntregaTudo/FileContentIndex
-/.vs/
-/EntregaTudo.Dal/bin/Debug/net8.0
-/EntregaTudo.Dal/obj/Debug/net8.0
-/EntregaTudo.Dal/obj
-/EntregaTudo.Api/bin/Debug/net8.0
-/EntregaTudo.Api/obj
+# Ignorar diretórios .vs em todos os lugares
 .vs/
+
+# Ignorar diretórios específicos de cada projeto
+/EntregaTudo.Core/bin/
+/EntregaTudo.Core/obj/
+/EntregaTudo.Dal/bin/
+/EntregaTudo.Dal/obj/
+/EntregaTudo.Api/bin/
+/EntregaTudo.Api/obj/
