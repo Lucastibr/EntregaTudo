@@ -21,3 +21,15 @@ C:\Users\Lucas\Desktop\ProjetoIntegrador\EntregaTudo\EntregaTudo\EntregaTudo.Cor
 C:\Users\Lucas\Desktop\ProjetoIntegrador\EntregaTudo\EntregaTudo\EntregaTudo.Core\obj\Debug\net8.0\refint\EntregaTudo.Core.dll
 C:\Users\Lucas\Desktop\ProjetoIntegrador\EntregaTudo\EntregaTudo\EntregaTudo.Core\obj\Debug\net8.0\EntregaTudo.Core.pdb
 C:\Users\Lucas\Desktop\ProjetoIntegrador\EntregaTudo\EntregaTudo\EntregaTudo.Core\obj\Debug\net8.0\ref\EntregaTudo.Core.dll
+C:\Users\lukka\source\repos\EntregaTudo\EntregaTudo\EntregaTudo.Core\bin\Debug\net8.0\EntregaTudo.Core.deps.json
+C:\Users\lukka\source\repos\EntregaTudo\EntregaTudo\EntregaTudo.Core\bin\Debug\net8.0\EntregaTudo.Core.dll
+C:\Users\lukka\source\repos\EntregaTudo\EntregaTudo\EntregaTudo.Core\bin\Debug\net8.0\EntregaTudo.Core.pdb
+C:\Users\lukka\source\repos\EntregaTudo\EntregaTudo\EntregaTudo.Core\obj\Debug\net8.0\EntregaTudo.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lukka\source\repos\EntregaTudo\EntregaTudo\EntregaTudo.Core\obj\Debug\net8.0\EntregaTudo.Core.AssemblyInfoInputs.cache
+C:\Users\lukka\source\repos\EntregaTudo\EntregaTudo\EntregaTudo.Core\obj\Debug\net8.0\EntregaTudo.Core.AssemblyInfo.cs
+C:\Users\lukka\source\repos\EntregaTudo\EntregaTudo\EntregaTudo.Core\obj\Debug\net8.0\EntregaTudo.Core.csproj.CoreCompileInputs.cache
+C:\Users\lukka\source\repos\EntregaTudo\EntregaTudo\EntregaTudo.Core\obj\Debug\net8.0\EntregaTudo.Core.sourcelink.json
+C:\Users\lukka\source\repos\EntregaTudo\EntregaTudo\EntregaTudo.Core\obj\Debug\net8.0\EntregaTudo.Core.dll
+C:\Users\lukka\source\repos\EntregaTudo\EntregaTudo\EntregaTudo.Core\obj\Debug\net8.0\refint\EntregaTudo.Core.dll
+C:\Users\lukka\source\repos\EntregaTudo\EntregaTudo\EntregaTudo.Core\obj\Debug\net8.0\EntregaTudo.Core.pdb
+C:\Users\lukka\source\repos\EntregaTudo\EntregaTudo\EntregaTudo.Core\obj\Debug\net8.0\ref\EntregaTudo.Core.dll

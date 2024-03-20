@@ -1,27 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Api\\EntregaTudo.Api.csproj": {}
+    "C:\\Users\\lukka\\source\\repos\\EntregaTudo\\EntregaTudo\\EntregaTudo.Api\\EntregaTudo.Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Api\\EntregaTudo.Api.csproj": {
+    "C:\\Users\\lukka\\source\\repos\\EntregaTudo\\EntregaTudo\\EntregaTudo.Api\\EntregaTudo.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Api\\EntregaTudo.Api.csproj",
+        "projectUniqueName": "C:\\Users\\lukka\\source\\repos\\EntregaTudo\\EntregaTudo\\EntregaTudo.Api\\EntregaTudo.Api.csproj",
         "projectName": "EntregaTudo.Api",
-        "projectPath": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Api\\EntregaTudo.Api.csproj",
-        "packagesPath": "C:\\Users\\Lucas\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Api\\obj\\",
+        "projectPath": "C:\\Users\\lukka\\source\\repos\\EntregaTudo\\EntregaTudo\\EntregaTudo.Api\\EntregaTudo.Api.csproj",
+        "packagesPath": "C:\\Users\\lukka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lukka\\source\\repos\\EntregaTudo\\EntregaTudo\\EntregaTudo.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\DevExpress 23.1\\Components\\Offline Packages",
-          "C:\\Program Files\\DevExpress 23.2\\Components\\Offline Packages",
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Lucas\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 23.1.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 23.2.config",
+          "C:\\Users\\lukka\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -30,18 +26,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\DevExpress 23.1\\Components\\System\\Components\\Packages": {},
-          "C:\\Program Files\\DevExpress 23.2\\Components\\System\\Components\\Packages": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
-          "C:\\Users\\Lucas\\Desktop\\LocalPackage": {},
+          "C:\\Users\\lukka\\OneDrive\\Área de Trabalho\\Local Packages": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Dal\\EntregaTudo.Dal.csproj": {
-                "projectPath": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Dal\\EntregaTudo.Dal.csproj"
+              "C:\\Users\\lukka\\source\\repos\\EntregaTudo\\EntregaTudo\\EntregaTudo.Dal\\EntregaTudo.Dal.csproj": {
+                "projectPath": "C:\\Users\\lukka\\source\\repos\\EntregaTudo\\EntregaTudo\\EntregaTudo.Dal\\EntregaTudo.Dal.csproj"
               }
             }
           }
@@ -89,24 +82,20 @@
         }
       }
     },
-    "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Core\\EntregaTudo.Core.csproj": {
+    "C:\\Users\\lukka\\source\\repos\\EntregaTudo\\EntregaTudo\\EntregaTudo.Core\\EntregaTudo.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Core\\EntregaTudo.Core.csproj",
+        "projectUniqueName": "C:\\Users\\lukka\\source\\repos\\EntregaTudo\\EntregaTudo\\EntregaTudo.Core\\EntregaTudo.Core.csproj",
         "projectName": "EntregaTudo.Core",
-        "projectPath": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Core\\EntregaTudo.Core.csproj",
-        "packagesPath": "C:\\Users\\Lucas\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Core\\obj\\",
+        "projectPath": "C:\\Users\\lukka\\source\\repos\\EntregaTudo\\EntregaTudo\\EntregaTudo.Core\\EntregaTudo.Core.csproj",
+        "packagesPath": "C:\\Users\\lukka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lukka\\source\\repos\\EntregaTudo\\EntregaTudo\\EntregaTudo.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\DevExpress 23.1\\Components\\Offline Packages",
-          "C:\\Program Files\\DevExpress 23.2\\Components\\Offline Packages",
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Lucas\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 23.1.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 23.2.config",
+          "C:\\Users\\lukka\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -115,10 +104,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\DevExpress 23.1\\Components\\System\\Components\\Packages": {},
-          "C:\\Program Files\\DevExpress 23.2\\Components\\System\\Components\\Packages": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
-          "C:\\Users\\Lucas\\Desktop\\LocalPackage": {},
+          "C:\\Users\\lukka\\OneDrive\\Área de Trabalho\\Local Packages": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -161,24 +147,20 @@
         }
       }
     },
-    "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Dal\\EntregaTudo.Dal.csproj": {
+    "C:\\Users\\lukka\\source\\repos\\EntregaTudo\\EntregaTudo\\EntregaTudo.Dal\\EntregaTudo.Dal.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Dal\\EntregaTudo.Dal.csproj",
+        "projectUniqueName": "C:\\Users\\lukka\\source\\repos\\EntregaTudo\\EntregaTudo\\EntregaTudo.Dal\\EntregaTudo.Dal.csproj",
         "projectName": "EntregaTudo.Dal",
-        "projectPath": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Dal\\EntregaTudo.Dal.csproj",
-        "packagesPath": "C:\\Users\\Lucas\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Dal\\obj\\",
+        "projectPath": "C:\\Users\\lukka\\source\\repos\\EntregaTudo\\EntregaTudo\\EntregaTudo.Dal\\EntregaTudo.Dal.csproj",
+        "packagesPath": "C:\\Users\\lukka\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lukka\\source\\repos\\EntregaTudo\\EntregaTudo\\EntregaTudo.Dal\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\DevExpress 23.1\\Components\\Offline Packages",
-          "C:\\Program Files\\DevExpress 23.2\\Components\\Offline Packages",
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Lucas\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 23.1.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 23.2.config",
+          "C:\\Users\\lukka\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -187,18 +169,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\DevExpress 23.1\\Components\\System\\Components\\Packages": {},
-          "C:\\Program Files\\DevExpress 23.2\\Components\\System\\Components\\Packages": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
-          "C:\\Users\\Lucas\\Desktop\\LocalPackage": {},
+          "C:\\Users\\lukka\\OneDrive\\Área de Trabalho\\Local Packages": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Core\\EntregaTudo.Core.csproj": {
-                "projectPath": "C:\\Users\\Lucas\\Desktop\\ProjetoIntegrador\\EntregaTudo\\EntregaTudo\\EntregaTudo.Core\\EntregaTudo.Core.csproj"
+              "C:\\Users\\lukka\\source\\repos\\EntregaTudo\\EntregaTudo\\EntregaTudo.Core\\EntregaTudo.Core.csproj": {
+                "projectPath": "C:\\Users\\lukka\\source\\repos\\EntregaTudo\\EntregaTudo\\EntregaTudo.Core\\EntregaTudo.Core.csproj"
               }
             }
           }
