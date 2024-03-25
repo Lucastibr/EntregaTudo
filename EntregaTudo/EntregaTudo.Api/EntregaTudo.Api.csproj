@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EntregaTudo.Dal\EntregaTudo.Dal.csproj" />
+    <ProjectReference Include="..\EntregaTudo.Shared\EntregaTudo.Shared.csproj" />
   </ItemGroup>
 
 </Project>
