@@ -20,13 +20,17 @@ namespace EntregaTudo.Api.Controllers
             _customerRepository = customerRepository;
         }
 
-        [HttpGet(Name = "GetAllCustomers")]
+        [HttpGet("GetById", Name = "GetCustomerById")]
+        public async Task<IActionResult> Get(Guid? id)
+        {
+            return Ok(await _customerRepository.GetById(id.Value));
+        }
+
+        [HttpGet("GetAllCustomers", Name = "GetAllCustomers")]
         public async Task<IActionResult> Get()
         {
             var customers = await _customerRepository.GetAll();
-
             return Ok(customers);
-
         }
 
         [HttpPost(Name = "SaveCustomers")]
