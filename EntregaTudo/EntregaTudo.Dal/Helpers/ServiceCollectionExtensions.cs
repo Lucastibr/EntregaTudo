@@ -1,4 +1,6 @@
-﻿using EntregaTudo.Dal.Context;
+﻿using EntregaTudo.Core.Repository;
+using EntregaTudo.Dal.Context;
+using EntregaTudo.Dal.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +12,9 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddRepositories(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<EntregaTudoDbContext>(options => 
-            options.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"]));
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),x => x.MigrationsAssembly("EntregaTudo.Api")));
+
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
 
         return services;
     }
