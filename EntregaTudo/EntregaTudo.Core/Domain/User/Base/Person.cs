@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using EntregaTudo.Core.Domain.Base;
 using EntregaTudo.Core.Domain.Enum;
-using EntregaTudo.Core.Domain.Infrastructure;
 
 namespace EntregaTudo.Core.Domain.User.Base
 {

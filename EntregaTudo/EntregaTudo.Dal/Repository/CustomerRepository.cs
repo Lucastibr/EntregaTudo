@@ -12,6 +12,5 @@ public class CustomerRepository : RepositoryBase<Customer>, ICustomerRepository
 {
     public CustomerRepository(EntregaTudoDbContext db) : base(db)
     {
-
     }
 }

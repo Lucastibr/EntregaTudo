@@ -1,4 +1,6 @@
 ﻿using EntregaTudo.Core.Domain.Base;
+using EntregaTudo.Core.Domain.Enum;
+using EntregaTudo.Core.Domain.Infrastructure;
 
 namespace EntregaTudo.Core.Domain.Business.Delivery;
 
@@ -8,10 +10,8 @@ namespace EntregaTudo.Core.Domain.Business.Delivery;
 public class Delivery : Entity
 {
     public List<ItemDelivery> Items { get; set; }
-    public string DeliveryAddress { get; set; }
-
-    //Criar um ENUM para setar o status do pedido;
-    public string Status { get; set; }
+    public DeliveryAddress DeliveryAddress { get; set; }
+    public DeliveryStatus DeliveryStatus { get; set; }
 
     // Método para calcular o preço da entrega, temos que levar outras consideracoes, como trafego, por exemplo.
     public decimal CalculateDeliveryCost(double distanceInKm)

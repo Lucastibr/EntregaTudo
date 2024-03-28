@@ -1,5 +1,5 @@
-﻿using EntregaTudo.Core.Domain.User;
-using EntregaTudo.Core.Domain.User.Base;
+﻿using EntregaTudo.Core.Domain.Business.Vehicle;
+using EntregaTudo.Core.Domain.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace EntregaTudo.Dal.Context;
@@ -7,6 +7,7 @@ namespace EntregaTudo.Dal.Context;
 public class EntregaTudoDbContext(DbContextOptions<EntregaTudoDbContext> options) : DbContext(options)
 {
     DbSet<Customer> Customers { get; set; }
+    DbSet<Vehicle> Vehicles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -31,6 +32,7 @@ public class EntregaTudoDbContext(DbContextOptions<EntregaTudoDbContext> options
             entity.Property(p => p.PersonType)
                 .IsRequired();
 
+            modelBuilder.Entity<Vehicle>().ToTable("Vehicles");
         });
 
         foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
