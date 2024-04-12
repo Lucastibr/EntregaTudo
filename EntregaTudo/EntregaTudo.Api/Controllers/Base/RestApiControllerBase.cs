@@ -112,7 +112,7 @@ public abstract class RestApiControllerBase<TEntity, TDto, TContext> : Controlle
             _context.Update(domain);
             await _context.SaveChangesAsync();
 
-            return Ok(ToDto(entity));
+            return Ok(ToDto(domain));
         }
         catch (Exception e)
         {
