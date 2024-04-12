@@ -8,9 +8,9 @@ namespace EntregaTudo.Dal.Repository;
 /// <summary>
 /// Repositório de Cliente
 /// </summary>
-public class CustomerRepository : RepositoryBase<Customer>, ICustomerRepository
+public class PersonRepository : RepositoryBase<Person>, IPersonRepository
 {
-    public CustomerRepository(EntregaTudoDbContext db) : base(db)
+    public PersonRepository(EntregaTudoDbContext db) : base(db)
     {
     }
 }

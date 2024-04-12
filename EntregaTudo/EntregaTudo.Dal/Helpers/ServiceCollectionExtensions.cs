@@ -14,7 +14,7 @@ public static class ServiceCollectionExtensions
         services.AddDbContext<EntregaTudoDbContext>(options => 
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),x => x.MigrationsAssembly("EntregaTudo.Api")));
 
-        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IPersonRepository, PersonRepository>();
         services.AddScoped<IVehicleRepository, VehicleRepository>();
 
         return services;

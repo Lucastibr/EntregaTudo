@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace EntregaTudo.Core.Repository.Base;
 
-public interface IRepository<TEntity> : IDisposable where TEntity : Entity
+public interface IRepository<TEntity> : IDisposable where TEntity : class
 {
     Task Save(TEntity entity);
     Task<TEntity> GetById(Guid id);

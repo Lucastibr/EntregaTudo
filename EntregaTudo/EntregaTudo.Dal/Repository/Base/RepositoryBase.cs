@@ -7,7 +7,7 @@ using EntregaTudo.Core.Repository.Base;
 namespace EntregaTudo.Dal.Repository.Base;
 
 
-public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : Entity
+public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class
 {
     protected readonly EntregaTudoDbContext Db;
     protected readonly DbSet<TEntity> DbSet;
