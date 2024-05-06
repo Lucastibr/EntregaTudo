@@ -23,7 +23,12 @@ public class Delivery : Entity
     public string DeliveryNote { get; set; } // Observações adicionais para a entrega
     public string DeliveryCode { get; set; }
 
-    // Método para calcular o preço da entrega
+    /// <summary>
+    /// Método para calcular o preço da entrega
+    /// </summary>
+    /// <param name="distanceInKm"></param>
+    /// <param name="distanceFactor"></param>
+    /// <returns></returns>
     public decimal CalculateDeliveryCost(double distanceInKm, decimal distanceFactor)
     {
         var totalWeight = Items.Sum(p => p.Weight); 
