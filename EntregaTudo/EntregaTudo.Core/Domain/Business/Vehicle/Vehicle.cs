@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using EntregaTudo.Core.Domain.Base;
 using EntregaTudo.Core.Domain.Enum;
+using EntregaTudo.Core.Domain.User;
 
 namespace EntregaTudo.Core.Domain.Business.Vehicle;
 
@@ -66,4 +67,6 @@ public class Vehicle : Entity
     {
         LoadCapacity = loadCapacity;
     }
+
+    public Person Person { get; set; }
 }

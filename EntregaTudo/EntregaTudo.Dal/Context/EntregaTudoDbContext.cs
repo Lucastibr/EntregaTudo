@@ -37,7 +37,9 @@ public class EntregaTudoDbContext(DbContextOptions<EntregaTudoDbContext> options
             entity.Property(p => p.PersonType)
                 .IsRequired();
 
-            modelBuilder.Entity<Vehicle>().ToTable("Vehicles");
+            entity.HasOne(x => x.Vehicle)
+                .WithOne()
+                .HasForeignKey<Vehicle>(d => d.Id);
         });
 
         modelBuilder.Entity<Address>(entity =>
@@ -72,6 +74,7 @@ public class EntregaTudoDbContext(DbContextOptions<EntregaTudoDbContext> options
                 .IsRequired();
             entity.Property(e => e.Longitude)
                 .IsRequired();
+
         });
 
         modelBuilder.Entity<Vehicle>(entity =>
@@ -126,7 +129,15 @@ public class EntregaTudoDbContext(DbContextOptions<EntregaTudoDbContext> options
                 .WithOne()
                 .HasForeignKey("DeliveryId")
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade); 
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(x => x.OriginDelivery)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(d => d.DestinationDelivery)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<ItemDelivery>(entity =>
@@ -153,7 +164,7 @@ public class EntregaTudoDbContext(DbContextOptions<EntregaTudoDbContext> options
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
-            .UseSqlServer("Server=.\\LUCASAXION;Database=EntregaTudo;Trusted_Connection=true;Encrypt=false;MultipleActiveResultSets=true;",
+            .UseSqlServer("Server=.\\LUCAS;Database=EntregaTudo;Trusted_Connection=true;Encrypt=false;MultipleActiveResultSets=true;",
             options => options.MigrationsAssembly("EntregaTudo.Api"));
     }
 }

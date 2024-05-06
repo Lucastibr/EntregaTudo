@@ -1,6 +1,7 @@
 ﻿using EntregaTudo.Core.Domain.Base;
 using EntregaTudo.Core.Domain.Enum;
 using EntregaTudo.Core.Domain.Infrastructure;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntregaTudo.Core.Domain.Business.Delivery;
 
@@ -10,7 +11,12 @@ namespace EntregaTudo.Core.Domain.Business.Delivery;
 public class Delivery : Entity
 {
     public List<ItemDelivery> Items { get; set; }
-    public Address Address { get; set; }
+
+    [ForeignKey("OriginDeliveryId")]
+    public Address OriginDelivery { get; set; }
+
+    [ForeignKey("DestinationDeliveryId")]
+    public Address DestinationDelivery { get; set; }
     public DeliveryStatus DeliveryStatus { get; set; }
     public DateTime ScheduledTime { get; set; } // Data e hora agendada para a entrega
     public decimal DeliveryCost { get; set; } // Custo da entrega
