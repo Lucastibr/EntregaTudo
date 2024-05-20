@@ -6,7 +6,7 @@ namespace EntregaTudo.Core.Repository.Base;
 public interface IRepository<TEntity> : IDisposable where TEntity : class
 {
     Task Save(TEntity entity);
-    Task<TEntity> GetById(Guid id);
+    Task<TEntity?> GetById(Guid id);
     Task<IEnumerable<TEntity>> GetAll();
     Task Update(TEntity entity);
     Task Delete(Guid id);

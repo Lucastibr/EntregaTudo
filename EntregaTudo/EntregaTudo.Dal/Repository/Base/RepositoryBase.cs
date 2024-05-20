@@ -23,7 +23,7 @@ public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEnti
         return await DbSet.AsNoTracking().Where(predicate).ToListAsync();
     }
 
-    public virtual async Task<TEntity> GetById(Guid id)
+    public virtual async Task<TEntity?> GetById(Guid id)
     {
         return await DbSet.FindAsync(id);
     }
