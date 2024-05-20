@@ -5,5 +5,7 @@ public class DeliveryDto
     public AddressDto AddressOrigin { get; set; }
     public AddressDto AddressDestiny { get; set; }
 
-    public List<ItemDeliveryDto> Items = new();
+    public List<ItemDeliveryDto> Items = [];
+
+    public decimal? DeliveryCost { get; set; }
 }

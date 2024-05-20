@@ -63,12 +63,6 @@ public class DeliveryController : ApiControllerBase
     [HttpPost]
     public async Task<IActionResult> Post(DeliveryDto dto)
     {
-        var deliveryCost = CepHelper.GetDistance(
-            Convert.ToDouble(dto.AddressOrigin.Longitude, CultureInfo.InvariantCulture),
-            Convert.ToDouble(dto.AddressOrigin.Latitude, CultureInfo.InvariantCulture),
-            Convert.ToDouble(dto.AddressDestiny.Longitude, CultureInfo.InvariantCulture),
-            Convert.ToDouble(dto.AddressDestiny.Latitude, CultureInfo.InvariantCulture));
-
         var delivery = new Delivery
         {
             OriginDelivery = new Address
@@ -95,7 +89,7 @@ public class DeliveryController : ApiControllerBase
                 NumberAddress = dto.AddressOrigin.NumberAddress,
                 StreetAddress = dto.AddressOrigin.StreetAddress
             },
-            DeliveryCost = Convert.ToDecimal(deliveryCost),
+            DeliveryCost = dto.DeliveryCost.Value,
             DeliveryNote = "",
             DeliveryStatus = DeliveryStatus.Pending,
             Items = dto.Items.Select(x => new ItemDelivery
@@ -119,7 +113,7 @@ public class DeliveryController : ApiControllerBase
         if (domain == null)
             return BadRequest("Objeto Delivery não encontrado");
 
-        if (!domain.DeliveryCode.Equals(deliveryCode, StringComparison.CurrentCultureIgnoreCase))
+        if (!domain.ConfirmDelivery(deliveryCode))
             return BadRequest("O código informado não representa ao código do delivery");
 
         domain.DeliveryStatus = DeliveryStatus.Ok;

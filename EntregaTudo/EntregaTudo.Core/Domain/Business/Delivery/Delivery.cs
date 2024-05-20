@@ -2,6 +2,7 @@
 using EntregaTudo.Core.Domain.Enum;
 using EntregaTudo.Core.Domain.Infrastructure;
 using System.ComponentModel.DataAnnotations.Schema;
+using EntregaTudo.Core.Domain.User;
 
 namespace EntregaTudo.Core.Domain.Business.Delivery;
 
@@ -18,9 +19,9 @@ public class Delivery : Entity
     [ForeignKey("DestinationDeliveryId")]
     public Address DestinationDelivery { get; set; }
     public DeliveryStatus DeliveryStatus { get; set; }
-    public DateTime ScheduledTime { get; set; } // Data e hora agendada para a entrega
-    public decimal DeliveryCost { get; set; } // Custo da entrega
-    public string DeliveryNote { get; set; } // Observações adicionais para a entrega
+    public DateTime ScheduledTime { get; set; }
+    public decimal DeliveryCost { get; set; }
+    public string DeliveryNote { get; set; } 
     public string DeliveryCode { get; set; }
 
     /// <summary>

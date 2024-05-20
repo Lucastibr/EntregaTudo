@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using EntregaTudo.Core.Domain.Base;
+using EntregaTudo.Core.Domain.Business.Delivery;
 using EntregaTudo.Core.Domain.Business.Vehicle;
 using EntregaTudo.Core.Domain.Enum;
 
@@ -49,6 +50,14 @@ namespace EntregaTudo.Core.Domain.User
         [Required(ErrorMessage = "Informe o e-mail")]
         public PersonType PersonType { get; set; }
 
+        /// <summary>
+        /// Veículos
+        /// </summary>
         public Vehicle Vehicle { get; set; }
+
+        /// <summary>
+        /// Lista de Entregas
+        /// </summary>
+        public List<Delivery> Deliveries { get; set; } = new();
     }
 }
