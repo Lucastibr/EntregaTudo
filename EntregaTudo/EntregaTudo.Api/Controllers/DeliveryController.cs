@@ -2,10 +2,10 @@
 using EntregaTudo.Api.Helpers;
 using EntregaTudo.Core.Domain.Business.Delivery;
 using EntregaTudo.Core.Domain.Infrastructure;
-using EntregaTudo.Dal.Context;
 using EntregaTudo.Shared.Dto;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
+using Codout.Framework.DAL;
 using EntregaTudo.Core.Domain.Enum;
 using EntregaTudo.Core.Repository;
 
@@ -13,14 +13,13 @@ namespace EntregaTudo.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class DeliveryController : ApiControllerBase
+public class DeliveryController(IWebHostEnvironment webHostEnvironment,
+    ILogger<DeliveryController> logger,
+    IUnitOfWork unitOfWork,
+    IServiceProvider serviceProvider,
+    IDeliveryRepository deliveryRepository)
+    : ApiControllerBase(webHostEnvironment, logger, unitOfWork, serviceProvider)
 {
-    private readonly IDeliveryRepository _deliveryRepository;
-    public DeliveryController(EntregaTudoDbContext context, IWebHostEnvironment hostingEnvironment, IDeliveryRepository deliveryRepository) : base(context, hostingEnvironment)
-    {
-        _deliveryRepository = deliveryRepository;
-    }
-
     /// <summary>
     /// Método para calcular o preço do delivery
     /// </summary>
@@ -108,7 +107,7 @@ public class DeliveryController : ApiControllerBase
     [HttpPost]
     public async Task<IActionResult> FinalizeOrder(Guid? id, string deliveryCode)
     {
-        var domain = await _deliveryRepository.GetById(id.Value);
+        var domain = await deliveryRepository.GetAsync(id.Value);
 
         if (domain == null)
             return BadRequest("Objeto Delivery não encontrado");

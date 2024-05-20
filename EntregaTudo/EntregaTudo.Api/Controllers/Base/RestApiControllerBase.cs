@@ -1,37 +1,45 @@
-﻿using EntregaTudo.Shared.Dto.Base;
+﻿using Codout.Framework.DAL;
+using Codout.Framework.DAL.Entity;
+using Codout.Framework.DAL.Repository;
+using EntregaTudo.Shared.Dto.Base;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
 
 namespace EntregaTudo.Api.Controllers.Base;
 
 [ApiController]
-public abstract class RestApiControllerBase<TEntity, TDto, TContext> : Controller
-    where TEntity : class
+public abstract class RestApiControllerBase<TRepository, TEntity, TDto> : ApiControllerBase
+    where TEntity : class, IEntity<ObjectId>, new()
     where TDto : DtoBase
-    where TContext : DbContext
+    where TRepository : IRepository<TEntity>
 {
-    private readonly TContext _context;
-    protected RestApiControllerBase(TContext context)
+    private readonly IUnitOfWork _unitOfWork;
+    protected RestApiControllerBase(IWebHostEnvironment webHostEnvironment,
+        ILogger logger,
+        IUnitOfWork unitOfWork,
+        IServiceProvider serviceProvider,
+        TRepository repository)
+        : base(webHostEnvironment, logger, unitOfWork, serviceProvider)
     {
-        _context = context;
+        Repository = repository;
     }
 
-    [NonAction]
-    protected abstract TEntity ToDomain(TDto dto, TEntity? entity = null);
+    public TRepository Repository { get; }
+
+    public abstract Task<TDto> ToDtoAsync(TEntity value);
+
+    public abstract Task<TEntity> ToDomainAsync(TDto dto);
 
     [NonAction]
-    protected abstract TDto ToDto(TEntity domain);
+    protected TEntity? GetDomain(TDto dto) => Repository.Get(dto.Id);
 
-    [NonAction]
-    protected TEntity? GetDomain(TDto dto) => _context.Set<TEntity>().Find(dto.Id);
 
     [HttpGet]
     public virtual async Task<IActionResult> Get()
     {
         try
         {
-            var result = await _context.Set<TEntity>()
-                .ToListAsync();
+            var result = Repository.All().ToList();
 
             return Ok(result);
         }
@@ -47,7 +55,7 @@ public abstract class RestApiControllerBase<TEntity, TDto, TContext> : Controlle
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public virtual async Task<IActionResult> Get(Guid? id)
     {
-        var context = await _context.Set<TEntity>().FindAsync(id);
+        var context = await Repository.GetAsync(id);
 
         if (context != null)
             return Ok(context);
@@ -56,87 +64,49 @@ public abstract class RestApiControllerBase<TEntity, TDto, TContext> : Controlle
     }
 
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public virtual async Task<IActionResult> Post([FromBody] TDto value)
+    [DisableRequestSizeLimit]
+    public virtual async Task<IActionResult> Create(TDto dto)
     {
-        try
-        {
-            if (value == null)
-                return BadRequest($"O objeto[{nameof(TDto)}] não deve ser nulo.");
 
-            TEntity domain;
+        UnitOfWork.BeginTransaction();
+        var domain = await ToDomainAsync(dto);
+        await Repository.SaveAsync(domain);
+        UnitOfWork.Commit();
 
-            try
-            {
-                domain = ToDomain(value);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-
-            await _context.Set<TEntity>().AddAsync(domain);
-
-            await _context.SaveChangesAsync();
-
-            return Ok(ToDto(domain));
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        return Ok(ToDtoAsync(domain));
     }
 
-    [HttpPut("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public virtual async Task<IActionResult> Put(Guid? id, [FromBody] TDto dto)
+    [HttpPost]
+    [DisableRequestSizeLimit]
+    public virtual async Task<IActionResult> Edit(ObjectId? id, [FromBody] TDto dto)
     {
-        try
-        {
-            if (!id.HasValue)
-                return NotFound();
+        if (!id.HasValue)
+            return NotFound();
 
-            dto.Id = id;
+        dto.Id = id;
 
-            var entity = GetDomain(dto);
+        var domain = await ToDomainAsync(dto);
 
-            if (entity == null) return Ok();
+        UnitOfWork.Commit();
 
-           var domain = ToDomain(dto, entity);
-
-           _context.ChangeTracker.Clear();
-
-            _context.Update(domain);
-            await _context.SaveChangesAsync();
-
-            return Ok(ToDto(domain));
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        return Ok(ToDtoAsync(domain));
     }
 
-    [HttpDelete("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [HttpDelete]
     public virtual async Task<IActionResult> Delete(Guid? id)
     {
-        if (id == null)
-            return BadRequest("Id não pode ser nulo!");
-
-        var entity = await _context.Set<TEntity>().FindAsync(id);
-
-        if (entity == null) return Ok();
-
-        _context.Set<TEntity>().Remove(entity);
-        await _context.SaveChangesAsync();
-
-        return Ok();
+        try
+        {
+            UnitOfWork.BeginTransaction();
+            var domain = await Repository.GetAsync(id);
+            await Repository.DeleteAsync(domain);
+            UnitOfWork.Commit();
+            return Json(new { result = true });
+        }
+        catch (Exception e)
+        {
+            return Json(new { result = true, message = e.Message });
+        }
     }
 
 }

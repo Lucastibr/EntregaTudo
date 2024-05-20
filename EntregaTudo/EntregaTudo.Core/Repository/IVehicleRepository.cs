@@ -3,7 +3,7 @@ using EntregaTudo.Core.Repository.Base;
 
 namespace EntregaTudo.Core.Repository;
 
-public interface IVehicleRepository : IRepository<Vehicle>
+public interface IVehicleRepository : IRepositoryBase<Vehicle>
 {
     
 }

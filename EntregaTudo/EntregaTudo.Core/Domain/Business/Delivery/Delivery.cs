@@ -9,7 +9,7 @@ namespace EntregaTudo.Core.Domain.Business.Delivery;
 /// <summary>
 /// Classe dos itens do pedido, pode ser mais de um produto a ser entregue no mesmo pedido;
 /// </summary>
-public class Delivery : Entity
+public class Delivery : MongoEntity
 {
     public List<ItemDelivery> Items { get; set; }
 

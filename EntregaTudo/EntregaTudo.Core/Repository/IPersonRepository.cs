@@ -3,7 +3,7 @@ using EntregaTudo.Core.Repository.Base;
 
 namespace EntregaTudo.Core.Repository;
 
-public interface IPersonRepository : IRepository<Person>
+public interface IPersonRepository : IRepositoryBase<Person>
 {
     
 }

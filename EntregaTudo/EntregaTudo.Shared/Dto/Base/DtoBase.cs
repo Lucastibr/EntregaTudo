@@ -1,6 +1,8 @@
-﻿namespace EntregaTudo.Shared.Dto.Base;
+﻿using MongoDB.Bson;
+
+namespace EntregaTudo.Shared.Dto.Base;
 
 public abstract class DtoBase 
 {
-    public Guid? Id {get; set;}
+    public ObjectId? Id {get; set;}
 }

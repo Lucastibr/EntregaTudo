@@ -1,18 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Codout.Framework.DAL;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EntregaTudo.Api.Controllers.Base;
 
 [ApiController]
 public class ApiControllerBase : Controller
 {
-    public ApiControllerBase(DbContext context, IWebHostEnvironment hostingEnvironment)
+    public ApiControllerBase(IWebHostEnvironment webHostEnvironment,
+        ILogger logger,
+        IUnitOfWork unitOfWork,
+        IServiceProvider serviceProvider)
     {
-        Context = context;
-        HostingEnvironment = hostingEnvironment;
+        UnitOfWork = unitOfWork;
+        WebHostEnvironment = webHostEnvironment;
+        Logger = logger;
+        ServiceProvider = serviceProvider;
     }
 
-    public DbContext Context { get; }
+    public IWebHostEnvironment WebHostEnvironment { get; }
 
-    public IWebHostEnvironment HostingEnvironment { get; }
+    public ILogger Logger { get; }
+
+    public IUnitOfWork UnitOfWork { get; }
+    public IServiceProvider ServiceProvider { get; }
 }

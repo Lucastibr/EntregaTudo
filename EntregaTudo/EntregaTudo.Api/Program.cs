@@ -1,9 +1,7 @@
-using EntregaTudo.Dal.Helpers;
-
 var builder = WebApplication.CreateBuilder(args);
 
 //Método para adicionar os repositórios
-builder.Services.AddRepositories(builder.Configuration);
+//builder.Services.AddRepositories(builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

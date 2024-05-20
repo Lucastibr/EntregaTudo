@@ -9,7 +9,7 @@ namespace EntregaTudo.Core.Domain.User
     /// <summary>
     /// Classe base para definir os atributos dos usuários
     /// </summary>
-    public class Person : Entity
+    public class Person : MongoEntity
     {
         /// <summary>
         /// Primeiro Nome

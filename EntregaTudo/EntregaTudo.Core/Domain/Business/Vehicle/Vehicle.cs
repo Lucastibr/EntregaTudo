@@ -9,7 +9,7 @@ namespace EntregaTudo.Core.Domain.Business.Vehicle;
 /// <summary>
 /// Classe base para os veículos
 /// </summary>
-public class Vehicle : Entity
+public class Vehicle : MongoEntity
 {
     /// <summary>
     /// Marca

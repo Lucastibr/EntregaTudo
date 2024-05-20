@@ -1,7 +1,8 @@
+using Codout.Framework.DAL;
 using EntregaTudo.Api.Controllers.Base;
 using EntregaTudo.Core.Domain.Enum;
 using EntregaTudo.Core.Domain.User;
-using EntregaTudo.Dal.Context;
+using EntregaTudo.Core.Repository;
 using EntregaTudo.Shared.Dto;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,27 +10,18 @@ namespace EntregaTudo.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class PersonController : RestApiControllerBase<Person, PersonDto, EntregaTudoDbContext>
+public class PersonController : RestApiControllerBase<IPersonRepository, Person, PersonDto>
 {
-    public PersonController(EntregaTudoDbContext context) : base(context)
+    public PersonController(IWebHostEnvironment webHostEnvironment,
+        ILogger<PersonController> logger,
+        IUnitOfWork unitOfWork,
+        IServiceProvider serviceProvider,
+        IPersonRepository repository)
+        : base(webHostEnvironment, logger, unitOfWork, serviceProvider, repository)
     {
     }
 
-    protected override Person ToDomain(PersonDto dto, Person? person = null)
-    {
-        return new Person
-        {
-            Id = dto.Id,
-            FirstName = dto.FirstName ?? person?.FirstName,
-            DocumentNumber = dto.DocumentNumber ?? person?.DocumentNumber,
-            Email = dto.Email ?? person?.Email,
-            LastName = dto.LastName ?? person?.LastName,
-            PersonType = (PersonType?)dto.PersonType ?? PersonType.User,
-            PhoneNumber = dto.PhoneNumber ?? person?.PhoneNumber
-        };
-    }
-
-    protected override PersonDto ToDto(Person domain)
+    public override async Task<PersonDto> ToDtoAsync(Person domain)
     {
         return new PersonDto
         {
@@ -40,6 +32,20 @@ public class PersonController : RestApiControllerBase<Person, PersonDto, Entrega
             LastName = domain.LastName,
             PersonType = (Shared.Enums.PersonType)domain.PersonType,
             PhoneNumber = domain.PhoneNumber  
+        };
+    }
+
+    public override async Task<Person> ToDomainAsync(PersonDto dto)
+    {
+        return new Person
+        {
+            Id = dto.Id.Value,
+            FirstName = dto.FirstName,
+            DocumentNumber = dto.DocumentNumber,
+            Email = dto.Email,
+            LastName = dto.LastName,
+            PersonType = (PersonType?)dto.PersonType ?? PersonType.User,
+            PhoneNumber = dto.PhoneNumber
         };
     }
 }

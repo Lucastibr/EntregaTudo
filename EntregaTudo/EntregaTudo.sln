@@ -5,11 +5,11 @@ VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntregaTudo.Core", "EntregaTudo.Core\EntregaTudo.Core.csproj", "{562349D1-0E14-4AB6-85A1-A8E17171BB33}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntregaTudo.Dal", "EntregaTudo.Dal\EntregaTudo.Dal.csproj", "{F25E4B86-DAA3-45E2-A798-C37FF1A5477B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntregaTudo.Api", "EntregaTudo.Api\EntregaTudo.Api.csproj", "{5F16D6F1-F440-41F7-AFEA-119A41B24D3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntregaTudo.Shared", "EntregaTudo.Shared\EntregaTudo.Shared.csproj", "{0485F0EA-5F0E-453D-9A3D-7C37AA1CFC72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntregaTudo.Shared", "EntregaTudo.Shared\EntregaTudo.Shared.csproj", "{0485F0EA-5F0E-453D-9A3D-7C37AA1CFC72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntregaTudo.Mongo", "EntregaTudo.Mongo\EntregaTudo.Mongo.csproj", "{95F04D3D-827A-4E6F-86E1-7DB261749493}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		{562349D1-0E14-4AB6-85A1-A8E17171BB33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{562349D1-0E14-4AB6-85A1-A8E17171BB33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{562349D1-0E14-4AB6-85A1-A8E17171BB33}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F25E4B86-DAA3-45E2-A798-C37FF1A5477B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F25E4B86-DAA3-45E2-A798-C37FF1A5477B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F25E4B86-DAA3-45E2-A798-C37FF1A5477B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F25E4B86-DAA3-45E2-A798-C37FF1A5477B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5F16D6F1-F440-41F7-AFEA-119A41B24D3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5F16D6F1-F440-41F7-AFEA-119A41B24D3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F16D6F1-F440-41F7-AFEA-119A41B24D3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{0485F0EA-5F0E-453D-9A3D-7C37AA1CFC72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0485F0EA-5F0E-453D-9A3D-7C37AA1CFC72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0485F0EA-5F0E-453D-9A3D-7C37AA1CFC72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95F04D3D-827A-4E6F-86E1-7DB261749493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95F04D3D-827A-4E6F-86E1-7DB261749493}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95F04D3D-827A-4E6F-86E1-7DB261749493}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95F04D3D-827A-4E6F-86E1-7DB261749493}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

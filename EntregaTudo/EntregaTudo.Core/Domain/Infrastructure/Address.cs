@@ -6,7 +6,7 @@ namespace EntregaTudo.Core.Domain.Infrastructure;
 /// <summary>
 /// Classe de endereço
 /// </summary>
-public class Address : Entity
+public class Address : MongoEntity
 {
     /// <summary>
     /// Endereço Rua

@@ -1,15 +1,16 @@
-﻿using EntregaTudo.Core.Domain.Base;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
+using Codout.Framework.DAL.Entity;
+using Codout.Framework.DAL.Repository;
 
 namespace EntregaTudo.Core.Repository.Base;
 
-public interface IRepository<TEntity> : IDisposable where TEntity : class
+public interface IRepositoryBase<T> : IRepository<T> where T : class, IEntity
 {
-    Task Save(TEntity entity);
-    Task<TEntity?> GetById(Guid id);
-    Task<IEnumerable<TEntity>> GetAll();
-    Task Update(TEntity entity);
-    Task Delete(Guid id);
-    Task<IEnumerable<TEntity>> Search(Expression<Func<TEntity, bool>> predicate);
-    Task<int> SaveChanges();
+    public T Get(string key);
+
+    public T Load(string key);
+
+    public Task<T> GetAsync(string key);
+
+    public Task<T> LoadAsync(string key);
 }
