@@ -1,4 +1,5 @@
 ﻿using EntregaTudo.Shared.Dto.Base;
+using EntregaTudo.Shared.Enums;
 
 namespace EntregaTudo.Shared.Dto;
 
@@ -32,4 +33,9 @@ public class DeliveryPersonDto : DtoBase
     public List<OrderDto> Orders { get; set; } = new();
 
     public VehicleDto Vehicle { get; set; } = new();
+
+    /// <summary>
+    /// Se a pessoa é que vai enviar ou vai entregar o pedido
+    /// </summary>
+    public PersonType? PersonType { get; set; }
 }

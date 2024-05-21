@@ -1,7 +1,9 @@
+using EntregaTudo.Mongo.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
-//Método para adicionar os repositórios
-//builder.Services.AddRepositories(builder.Configuration);
+//Método para adicionar os repositórios mongoDB
+builder.Services.AddMongo(builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

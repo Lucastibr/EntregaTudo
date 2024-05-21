@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EntregaTudo.Core\EntregaTudo.Core.csproj" />
+    <ProjectReference Include="..\EntregaTudo.Mongo\EntregaTudo.Mongo.csproj" />
     <ProjectReference Include="..\EntregaTudo.Shared\EntregaTudo.Shared.csproj" />
   </ItemGroup>
 
