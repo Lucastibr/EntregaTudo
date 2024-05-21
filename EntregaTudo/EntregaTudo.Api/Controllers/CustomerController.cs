@@ -10,20 +10,20 @@ namespace EntregaTudo.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class PersonController : RestApiControllerBase<IPersonRepository, Person, PersonDto>
+public class CustomerController : RestApiControllerBase<ICustomerRepository, Customer, CustomerDto>
 {
-    public PersonController(IWebHostEnvironment webHostEnvironment,
-        ILogger<PersonController> logger,
+    public CustomerController(IWebHostEnvironment webHostEnvironment,
+        ILogger<CustomerController> logger,
         IUnitOfWork unitOfWork,
         IServiceProvider serviceProvider,
-        IPersonRepository repository)
+        ICustomerRepository repository)
         : base(webHostEnvironment, logger, unitOfWork, serviceProvider, repository)
     {
     }
 
-    public override async Task<PersonDto> ToDtoAsync(Person domain)
+    public override async Task<CustomerDto> ToDtoAsync(Customer domain)
     {
-        return new PersonDto
+        return new CustomerDto
         {
             Id = domain.Id,
             FirstName = domain.FirstName,
@@ -35,9 +35,9 @@ public class PersonController : RestApiControllerBase<IPersonRepository, Person,
         };
     }
 
-    public override async Task<Person> ToDomainAsync(PersonDto dto)
+    public override async Task<Customer> ToDomainAsync(CustomerDto dto)
     {
-        return new Person
+        return new Customer
         {
             Id = dto.Id.Value,
             FirstName = dto.FirstName,

@@ -13,7 +13,7 @@ namespace EntregaTudo.Api.Controllers;
 [Route("[controller]")]
 public class VehicleController(
     IWebHostEnvironment webHostEnvironment,
-    ILogger<PersonController> logger,
+    ILogger<CustomerController> logger,
     IUnitOfWork unitOfWork,
     IServiceProvider serviceProvider,
     IVehicleRepository repository)

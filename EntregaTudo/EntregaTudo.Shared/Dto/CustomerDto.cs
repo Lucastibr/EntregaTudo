@@ -4,7 +4,7 @@ using EntregaTudo.Shared.Enums;
 
 namespace EntregaTudo.Shared.Dto;
 
-public class PersonDto : DtoBase
+public class CustomerDto : DtoBase
 {
     /// <summary>
     /// Primeiro Nome

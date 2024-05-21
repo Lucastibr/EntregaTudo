@@ -1,6 +1,6 @@
 ﻿namespace EntregaTudo.Shared.Dto;
 
-public class ItemDeliveryDto
+public class OrderItemDto
 {
     public string Name { get; set; }
     public string Description { get; set; }

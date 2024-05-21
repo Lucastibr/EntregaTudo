@@ -26,9 +26,9 @@ public class DeliveryController(IWebHostEnvironment webHostEnvironment,
     /// <param name="deliveryDto"></param>
     /// <returns></returns>
     [HttpGet("getDeliveryPrice")]
-    public async Task<IActionResult> GetDeliveryPrice(DeliveryDto? deliveryDto)
+    public async Task<IActionResult> GetDeliveryPrice(OrderDto? deliveryDto)
     {
-        var delivery = new Delivery
+        var delivery = new Order
         {
             OriginDelivery = new Address
             {
@@ -40,7 +40,7 @@ public class DeliveryController(IWebHostEnvironment webHostEnvironment,
             },
             Items =
             [
-                new ItemDelivery
+                new OrderItem
                 {
                     Weight = 2.5f
                 }
@@ -60,9 +60,9 @@ public class DeliveryController(IWebHostEnvironment webHostEnvironment,
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(DeliveryDto dto)
+    public async Task<IActionResult> Post(OrderDto dto)
     {
-        var delivery = new Delivery
+        var delivery = new Order
         {
             OriginDelivery = new Address
             {
@@ -91,7 +91,7 @@ public class DeliveryController(IWebHostEnvironment webHostEnvironment,
             DeliveryCost = dto.DeliveryCost.Value,
             DeliveryNote = "",
             DeliveryStatus = DeliveryStatus.Pending,
-            Items = dto.Items.Select(x => new ItemDelivery
+            Items = dto.Items.Select(x => new OrderItem
             {
                 Name = x.Name,
                 Description = x.Description,

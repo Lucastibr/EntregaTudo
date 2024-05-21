@@ -5,7 +5,7 @@ namespace EntregaTudo.Core.Domain.Business.Delivery;
 /// <summary>
 /// Classe do Produto a ser enviado
 /// </summary>
-public class ItemDelivery : MongoEntity
+public class OrderItem : MongoEntity
 {
     public string Name { get; set; }
     public string Description { get; set; }
