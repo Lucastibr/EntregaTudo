@@ -26,8 +26,10 @@ public abstract class RestApiControllerBase<TRepository, TEntity, TDto> : ApiCon
 
     public TRepository Repository { get; }
 
+    [NonAction]
     public abstract Task<TDto> ToDtoAsync(TEntity value);
 
+    [NonAction]
     public abstract Task<TEntity> ToDomainAsync(TDto dto);
 
     [NonAction]
@@ -63,7 +65,7 @@ public abstract class RestApiControllerBase<TRepository, TEntity, TDto> : ApiCon
         return Ok();
     }
 
-    [HttpPost]
+    [HttpPost("Create")]
     [DisableRequestSizeLimit]
     public virtual async Task<IActionResult> Create(TDto dto)
     {
@@ -76,7 +78,7 @@ public abstract class RestApiControllerBase<TRepository, TEntity, TDto> : ApiCon
         return Ok(ToDtoAsync(domain));
     }
 
-    [HttpPost]
+    [HttpPut("Edit")]
     [DisableRequestSizeLimit]
     public virtual async Task<IActionResult> Edit(ObjectId? id, [FromBody] TDto dto)
     {

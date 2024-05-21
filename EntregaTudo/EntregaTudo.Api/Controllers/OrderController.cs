@@ -104,7 +104,7 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
         return Ok(order);
     }
 
-    [HttpPost]
+    [HttpPost("finalizeOrder")]
     public async Task<IActionResult> FinalizeOrder(Guid? id, string deliveryCode)
     {
         var domain = await deliveryRepository.GetAsync(id.Value);
