@@ -30,4 +30,6 @@ public class DeliveryPersonDto : DtoBase
     public string? PhoneNumber { get; set; }
 
     public List<OrderDto> Orders { get; set; } = new();
+
+    public VehicleDto Vehicle { get; set; } = new();
 }

@@ -13,11 +13,11 @@ namespace EntregaTudo.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class DeliveryController(IWebHostEnvironment webHostEnvironment,
-    ILogger<DeliveryController> logger,
+public class OrderController(IWebHostEnvironment webHostEnvironment,
+    ILogger<OrderController> logger,
     IUnitOfWork unitOfWork,
     IServiceProvider serviceProvider,
-    IDeliveryRepository deliveryRepository)
+    IOrderRepository deliveryRepository)
     : ApiControllerBase(webHostEnvironment, logger, unitOfWork, serviceProvider)
 {
     /// <summary>
@@ -62,7 +62,7 @@ public class DeliveryController(IWebHostEnvironment webHostEnvironment,
     [HttpPost]
     public async Task<IActionResult> Post(OrderDto dto)
     {
-        var delivery = new Order
+        var order = new Order
         {
             OriginDelivery = new Address
             {
@@ -101,7 +101,7 @@ public class DeliveryController(IWebHostEnvironment webHostEnvironment,
             DeliveryCode = DeliveryHelper.GenerateDeliveryCode()
         };
 
-        return Ok(delivery);
+        return Ok(order);
     }
 
     [HttpPost]

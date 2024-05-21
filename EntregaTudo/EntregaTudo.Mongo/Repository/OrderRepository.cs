@@ -5,9 +5,9 @@ using EntregaTudo.Mongo.Repository.Base;
 
 namespace EntregaTudo.Mongo.Repository;
 
-public class DeliveryRepository : RepositoryBase<Order>, IDeliveryRepository
+public class OrderRepository : RepositoryBase<Order>, IOrderRepository
 {
-    public DeliveryRepository(MongoContext mongoContext) : base(mongoContext)
+    public OrderRepository(MongoContext mongoContext) : base(mongoContext)
     {
     }
 }
