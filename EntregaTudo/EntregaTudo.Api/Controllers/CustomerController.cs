@@ -14,10 +14,9 @@ public class CustomerController : RestApiControllerBase<ICustomerRepository, Cus
 {
     public CustomerController(IWebHostEnvironment webHostEnvironment,
         ILogger<CustomerController> logger,
-        IUnitOfWork unitOfWork,
         IServiceProvider serviceProvider,
         ICustomerRepository repository)
-        : base(webHostEnvironment, logger, unitOfWork, serviceProvider, repository)
+        : base(webHostEnvironment, logger, serviceProvider, repository)
     {
     }
 

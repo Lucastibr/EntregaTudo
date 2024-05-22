@@ -8,10 +8,8 @@ public class ApiControllerBase : Controller
 {
     public ApiControllerBase(IWebHostEnvironment webHostEnvironment,
         ILogger logger,
-        IUnitOfWork unitOfWork,
         IServiceProvider serviceProvider)
     {
-        UnitOfWork = unitOfWork;
         WebHostEnvironment = webHostEnvironment;
         Logger = logger;
         ServiceProvider = serviceProvider;
@@ -21,6 +19,5 @@ public class ApiControllerBase : Controller
 
     public ILogger Logger { get; }
 
-    public IUnitOfWork UnitOfWork { get; }
     public IServiceProvider ServiceProvider { get; }
 }

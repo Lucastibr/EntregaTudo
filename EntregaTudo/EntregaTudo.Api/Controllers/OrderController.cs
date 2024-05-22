@@ -15,10 +15,9 @@ namespace EntregaTudo.Api.Controllers;
 [Route("[controller]")]
 public class OrderController(IWebHostEnvironment webHostEnvironment,
     ILogger<OrderController> logger,
-    IUnitOfWork unitOfWork,
     IServiceProvider serviceProvider,
     IOrderRepository deliveryRepository)
-    : ApiControllerBase(webHostEnvironment, logger, unitOfWork, serviceProvider)
+    : ApiControllerBase(webHostEnvironment, logger, serviceProvider)
 {
     /// <summary>
     /// Método para calcular o preço do delivery

@@ -10,10 +10,4 @@ public class Customer : Person
     {
         PersonType = PersonType.User;
     }
-
-    /// <summary>
-    /// Lista de Pedidos (Entregas) realizados pelo cliente
-    /// </summary>
-    [BsonElement("deliveries")]
-    public List<Order> Deliveries { get; set; } = new();
 }

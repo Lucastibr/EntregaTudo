@@ -13,13 +13,11 @@ public abstract class RestApiControllerBase<TRepository, TEntity, TDto> : ApiCon
     where TDto : DtoBase
     where TRepository : IRepository<TEntity>
 {
-    private readonly IUnitOfWork _unitOfWork;
     protected RestApiControllerBase(IWebHostEnvironment webHostEnvironment,
         ILogger logger,
-        IUnitOfWork unitOfWork,
         IServiceProvider serviceProvider,
         TRepository repository)
-        : base(webHostEnvironment, logger, unitOfWork, serviceProvider)
+        : base(webHostEnvironment, logger, serviceProvider)
     {
         Repository = repository;
     }
@@ -70,11 +68,8 @@ public abstract class RestApiControllerBase<TRepository, TEntity, TDto> : ApiCon
     public virtual async Task<IActionResult> Create(TDto dto)
     {
 
-        UnitOfWork.BeginTransaction();
         var domain = await ToDomainAsync(dto);
         await Repository.SaveAsync(domain);
-        UnitOfWork.Commit();
-
         return Ok(ToDtoAsync(domain));
     }
 
@@ -89,8 +84,6 @@ public abstract class RestApiControllerBase<TRepository, TEntity, TDto> : ApiCon
 
         var domain = await ToDomainAsync(dto);
 
-        UnitOfWork.Commit();
-
         return Ok(ToDtoAsync(domain));
     }
 
@@ -99,10 +92,8 @@ public abstract class RestApiControllerBase<TRepository, TEntity, TDto> : ApiCon
     {
         try
         {
-            UnitOfWork.BeginTransaction();
             var domain = await Repository.GetAsync(id);
             await Repository.DeleteAsync(domain);
-            UnitOfWork.Commit();
             return Json(new { result = true });
         }
         catch (Exception e)

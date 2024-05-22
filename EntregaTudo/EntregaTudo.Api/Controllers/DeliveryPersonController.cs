@@ -14,10 +14,9 @@ public class DeliveryPersonController : RestApiControllerBase<IDeliveryPersonRep
 {
     public DeliveryPersonController(IWebHostEnvironment webHostEnvironment,
         ILogger<DeliveryPersonController> logger,
-        IUnitOfWork unitOfWork,
         IServiceProvider serviceProvider,
         IDeliveryPersonRepository repository)
-        : base(webHostEnvironment, logger, unitOfWork, serviceProvider, repository)
+        : base(webHostEnvironment, logger,  serviceProvider, repository)
     {
     }
 

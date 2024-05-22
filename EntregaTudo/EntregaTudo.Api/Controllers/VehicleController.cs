@@ -14,10 +14,9 @@ namespace EntregaTudo.Api.Controllers;
 public class VehicleController(
     IWebHostEnvironment webHostEnvironment,
     ILogger<CustomerController> logger,
-    IUnitOfWork unitOfWork,
     IServiceProvider serviceProvider,
     IVehicleRepository repository)
-    : RestApiControllerBase<IVehicleRepository, Vehicle, VehicleDto>(webHostEnvironment, logger, unitOfWork,
+    : RestApiControllerBase<IVehicleRepository, Vehicle, VehicleDto>(webHostEnvironment, logger,
         serviceProvider, repository)
 {
     public override async Task<VehicleDto> ToDtoAsync(Vehicle value)
