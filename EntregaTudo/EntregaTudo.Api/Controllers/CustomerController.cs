@@ -4,11 +4,13 @@ using EntregaTudo.Core.Domain.Enum;
 using EntregaTudo.Core.Domain.User;
 using EntregaTudo.Core.Repository;
 using EntregaTudo.Shared.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
 namespace EntregaTudo.Api.Controllers;
 
+[AllowAnonymous]
 [ApiController]
 [Route("[controller]")]
 public class CustomerController(

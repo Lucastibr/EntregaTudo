@@ -5,7 +5,6 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Método para adicionar os repositórios mongoDB
 builder.Services.AddMongo(builder.Configuration);
 
 var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty);
@@ -26,7 +25,7 @@ builder.Services.AddAuthentication(x =>
             ValidateIssuer = false,
             ValidateAudience = false
         };
-    });
+});
 
 builder.Services.AddCors(options =>
 {
