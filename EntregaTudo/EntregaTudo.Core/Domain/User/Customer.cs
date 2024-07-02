@@ -1,6 +1,4 @@
-﻿using EntregaTudo.Core.Domain.Business.Delivery;
-using EntregaTudo.Core.Domain.Enum;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using EntregaTudo.Core.Domain.Enum;
 
 namespace EntregaTudo.Core.Domain.User;
 

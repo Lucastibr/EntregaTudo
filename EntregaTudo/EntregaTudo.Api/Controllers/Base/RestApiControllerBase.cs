@@ -2,6 +2,7 @@
 using Codout.Framework.DAL.Entity;
 using Codout.Framework.DAL.Repository;
 using EntregaTudo.Shared.Dto.Base;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
@@ -63,6 +64,7 @@ public abstract class RestApiControllerBase<TRepository, TEntity, TDto> : ApiCon
         return Ok();
     }
 
+    [AllowAnonymous]
     [HttpPost("Create")]
     [DisableRequestSizeLimit]
     public virtual async Task<IActionResult> Create(TDto dto)

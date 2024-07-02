@@ -5,9 +5,20 @@ using EntregaTudo.Mongo.Repository.Base;
 
 namespace EntregaTudo.Mongo.Repository;
 
-public class CustomerRepository : RepositoryBase<Customer>, ICustomerRepository
+public class CustomerRepository(MongoContext mongoContext) : RepositoryBase<Customer>(mongoContext), ICustomerRepository
 {
-    public CustomerRepository(MongoContext mongoContext) : base(mongoContext)
+    public string HashPassword(string password)
     {
+        return BCrypt.Net.BCrypt.HashPassword(password);
+    }
+
+    public bool VerifyPassword(string password, string hashedPassword)
+    {
+        return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+    }
+
+    public Customer? GetPersonByEmail(string email)
+    {
+        return Find(p => p.Email == email).FirstOrDefault();
     }
 }

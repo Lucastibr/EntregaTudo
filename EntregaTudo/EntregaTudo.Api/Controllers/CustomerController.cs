@@ -5,21 +5,20 @@ using EntregaTudo.Core.Domain.User;
 using EntregaTudo.Core.Repository;
 using EntregaTudo.Shared.Dto;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace EntregaTudo.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class CustomerController : RestApiControllerBase<ICustomerRepository, Customer, CustomerDto>
+public class CustomerController(
+    IWebHostEnvironment webHostEnvironment,
+    ILogger<CustomerController> logger,
+    IServiceProvider serviceProvider,
+    ICustomerRepository repository)
+    : RestApiControllerBase<ICustomerRepository, Customer, CustomerDto>(webHostEnvironment, logger, serviceProvider,
+        repository)
 {
-    public CustomerController(IWebHostEnvironment webHostEnvironment,
-        ILogger<CustomerController> logger,
-        IServiceProvider serviceProvider,
-        ICustomerRepository repository)
-        : base(webHostEnvironment, logger, serviceProvider, repository)
-    {
-    }
-
     public override async Task<CustomerDto> ToDtoAsync(Customer domain)
     {
         return new CustomerDto
@@ -30,7 +29,8 @@ public class CustomerController : RestApiControllerBase<ICustomerRepository, Cus
             Email = domain.Email,
             LastName = domain.LastName,
             PersonType = (Shared.Enums.PersonType)domain.PersonType,
-            PhoneNumber = domain.PhoneNumber  
+            PhoneNumber = domain.PhoneNumber,
+            Password = domain.PasswordHash
         };
     }
 
@@ -38,13 +38,14 @@ public class CustomerController : RestApiControllerBase<ICustomerRepository, Cus
     {
         return new Customer
         {
-            Id = dto.Id.Value,
+            Id = dto.Id ?? ObjectId.Empty,
             FirstName = dto.FirstName,
             DocumentNumber = dto.DocumentNumber,
             Email = dto.Email,
             LastName = dto.LastName,
             PersonType = (PersonType?)dto.PersonType ?? PersonType.User,
-            PhoneNumber = dto.PhoneNumber
+            PhoneNumber = dto.PhoneNumber,
+            PasswordHash = Repository.HashPassword(dto.Password)
         };
     }
 }

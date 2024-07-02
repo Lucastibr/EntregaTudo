@@ -35,4 +35,10 @@ public class CustomerDto : DtoBase
     /// Se a pessoa é que vai enviar ou vai entregar o pedido
     /// </summary>
     public PersonType? PersonType { get; set; }
+
+
+    /// <summary>
+    /// Senha
+    /// </summary>
+    public string? Password { get; set; }
 }

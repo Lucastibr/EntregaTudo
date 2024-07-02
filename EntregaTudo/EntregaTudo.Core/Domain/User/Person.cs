@@ -25,6 +25,13 @@ public abstract class Person : MongoEntity
     public string? LastName { get; set; }
 
     /// <summary>
+    /// Senha
+    /// </summary>
+    [Required(ErrorMessage = "Informe a senha")]
+    [BsonElement("password")]
+    public string PasswordHash { get; set; }
+
+    /// <summary>
     /// Número do documento 
     /// </summary>
     [Required(ErrorMessage = "Informe o Número do Documento")]
