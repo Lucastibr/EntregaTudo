@@ -9,6 +9,7 @@ using MongoDB.Bson;
 namespace EntregaTudo.Api.Controllers.Base;
 
 [ApiController]
+[AllowAnonymous]
 public abstract class RestApiControllerBase<TRepository, TEntity, TDto> : ApiControllerBase
     where TEntity : class, IEntity<ObjectId>, new()
     where TDto : DtoBase

@@ -30,7 +30,7 @@ public class DeliveryPersonDto : DtoBase
     /// </summary>
     public string? PhoneNumber { get; set; }
 
-    public List<OrderDto> Orders { get; set; } = new();
+    public List<OrderDto>? Orders { get; set; } = [];
 
     public VehicleDto Vehicle { get; set; } = new();
 
@@ -38,4 +38,6 @@ public class DeliveryPersonDto : DtoBase
     /// Se a pessoa é que vai enviar ou vai entregar o pedido
     /// </summary>
     public PersonType? PersonType { get; set; }
+
+    public string? Password { get; set; }
 }

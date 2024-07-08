@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using EntregaTudo.Core.Domain.Enum;
 using EntregaTudo.Core.Domain.User;
 using EntregaTudo.Core.Repository;
 using EntregaTudo.Shared;
@@ -19,24 +20,10 @@ public class LoginController(
     ILogger<LoginController> logger,
     IServiceProvider serviceProvider,
     IConfiguration config,
-    ICustomerRepository customer)
+    ICustomerRepository customer,
+    IDeliveryPersonRepository deliveryPerson)
     : ApiControllerBase(webHostEnvironment, logger, serviceProvider)
 {
-    [HttpPost("login")]
-    public IActionResult Login([FromBody] LoginDto login)
-    {
-        var person = customer.GetPersonByEmail(login.Email);
-
-        if (person == null)
-            return Unauthorized();
-
-        var authenticate = customer.VerifyPassword(login.Password, person.PasswordHash);
-
-        if (!authenticate) return Unauthorized();
-
-        var token = GenerateJwtToken(person);
-        return Ok(new { Token = token });
-    }
 
     [HttpGet("userinfo")]
     [Authorize]
@@ -58,20 +45,38 @@ public class LoginController(
 
     }
 
-    private string GenerateJwtToken(Customer user)
+    [HttpPost("login")]
+    public IActionResult Login([FromBody] LoginDto login)
+    {
+        Person? person;
+
+        person = customer.GetPersonByEmail(login.Email) ?? (Person?)deliveryPerson.GetDeliveryPersonByEmail(login.Email);
+
+        var authenticate = person.PersonType == PersonType.User
+            ? customer.VerifyPassword(login.Password, person.PasswordHash)
+            : deliveryPerson.VerifyPassword(login.Password, person.PasswordHash);
+
+        if (!authenticate)
+            return Unauthorized();
+
+        var token = GenerateJwtToken(person);
+        return Ok(new { Token = token });
+    }
+
+    private string GenerateJwtToken(dynamic? person)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var claims = new[]
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim("FirstName", user.FirstName),
-            new Claim("LastName", user.LastName),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim("DocumentNumber", user.DocumentNumber),
-            new Claim("PhoneNumber", user.PhoneNumber),
-            new Claim("PersonType", user.PersonType.ToString())
+            new Claim(ClaimTypes.NameIdentifier, person.Id.ToString()),
+            new Claim("FirstName", person.FirstName),
+            new Claim("LastName", person.LastName),
+            new Claim(ClaimTypes.Email, person.Email),
+            new Claim("DocumentNumber", person.DocumentNumber),
+            new Claim("PhoneNumber", person.PhoneNumber),
+            new Claim("PersonType", person.PersonType.ToString())
         };
 
         var token = new JwtSecurityToken(
@@ -83,4 +88,5 @@ public class LoginController(
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
 }

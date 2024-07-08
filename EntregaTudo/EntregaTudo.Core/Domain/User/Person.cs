@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using EntregaTudo.Core.Domain.Base;
-using EntregaTudo.Core.Domain.Business.Delivery;
-using EntregaTudo.Core.Domain.Business.Vehicle;
 using EntregaTudo.Core.Domain.Enum;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -60,15 +58,4 @@ public abstract class Person : MongoEntity
     [BsonElement("personType")]
     public PersonType PersonType { get; set; }
 
-    /// <summary>
-    /// Veículos (apenas se a pessoa for um entregador)
-    /// </summary>
-    [BsonElement("vehicle")]
-    public Vehicle? Vehicle { get; set; }
-
-    /// <summary>
-    /// Lista de Entregas
-    /// </summary>
-    [BsonElement("deliveries")]
-    public List<Order> Deliveries { get; set; } = new();
 }
