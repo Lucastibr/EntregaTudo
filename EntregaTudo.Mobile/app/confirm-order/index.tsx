@@ -1,7 +1,8 @@
-import React from 'react';
-import { View, Text, Button, StyleSheet, Alert, ImageBackground } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Alert, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import logo from '../../assets/images/logo.jpg';
 
 export default function ConfirmOrderScreen() {
@@ -18,9 +19,25 @@ export default function ConfirmOrderScreen() {
     };
     deliveryCost: number;
   };
+  const [customerId, setCustomerId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const getCustomerId = async () => {
+      const id = await AsyncStorage.getItem('customerId');
+      setCustomerId(id);
+    };
+
+    getCustomerId();
+  }, []);
 
   const handleConfirm = async () => {
+    if (!customerId) {
+      Alert.alert('Erro', 'Não foi possível recuperar o ID do cliente.');
+      return;
+    }
+
     const orderDto = {
+      CustomerId: customerId,
       AddressOrigin: { PostalCode: '75384618' }, // CEP de origem fixo ou pode ser dinâmico
       AddressDestiny: {
         PostalCode: address.postalCode,
@@ -38,10 +55,16 @@ export default function ConfirmOrderScreen() {
     };
 
     try {
-      const response = await axios.post('http://192.168.1.100:5240/order', orderDto);
+      const token = await AsyncStorage.getItem('token');
+      console.log(token);
+      const response = await axios.post('https://rhq8kgxq-7174.brs.devtunnels.ms/order', orderDto, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       Alert.alert('Pedido Confirmado', 'Seu pedido foi confirmado com sucesso!');
-      navigation.navigate('home-screen/index'); // Redireciona para a tela inicial
     } catch (error) {
+      console.log(error);
       Alert.alert('Erro', 'Não foi possível confirmar o pedido. Tente novamente.');
     }
   };
@@ -53,7 +76,9 @@ export default function ConfirmOrderScreen() {
         <Text style={styles.label}>Item: {item}</Text>
         <Text style={styles.label}>Endereço: {`${address.street}, ${address.neighborhood}, ${address.city} - ${address.state}`}</Text>
         <Text style={styles.label}>Custo de Entrega: R$ {deliveryCost}</Text>
-        <Button title="Confirmar Pedido" onPress={handleConfirm} />
+        <TouchableOpacity style={styles.button} onPress={handleConfirm}>
+          <Text style={styles.buttonText}>Confirmar Pedido</Text>
+        </TouchableOpacity>
       </View>
     </ImageBackground>
   );
@@ -82,5 +107,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#fff',
     marginBottom: 10,
+  },
+  button: {
+    backgroundColor: '#2196F3',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
   },
 });

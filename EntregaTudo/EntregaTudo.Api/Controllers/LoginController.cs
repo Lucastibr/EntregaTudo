@@ -38,7 +38,8 @@ public class LoginController(
             Email = user.FindFirst(ClaimTypes.Email)?.Value,
             DocumentNumber = user.FindFirst("DocumentNumber")?.Value,
             PhoneNumber = user.FindFirst("PhoneNumber")?.Value,
-            PersonType = user.FindFirst("PersonType")?.Value
+            PersonType = user.FindFirst("PersonType")?.Value,
+            Id = user.FindFirst(ClaimTypes.NameIdentifier)?.Value,
         };
 
         return Ok(userInfo);
@@ -60,7 +61,7 @@ public class LoginController(
             return Unauthorized();
 
         var token = GenerateJwtToken(person);
-        return Ok(new { Token = token });
+        return Ok(new { Token = token, CustomerId = person.Id.ToString() });
     }
 
     private string GenerateJwtToken(dynamic? person)

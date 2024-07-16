@@ -3,6 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet, Alert, ImageBackground } fro
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import logo from '../../assets/images/logo.jpg';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function EnterAddressScreen() {
   const navigation = useNavigation();
@@ -84,8 +85,13 @@ export default function EnterAddressScreen() {
       };
 
       try {
-        console.log('Sending request to API with data:', orderDto); // Logging data for debugging
-        const response = await axios.post('https://rhq8kgxq-7174.brs.devtunnels.ms/order/getDeliveryPrice', orderDto);
+        const token = await AsyncStorage.getItem('token');
+      console.log(token);
+        const response = await axios.post('https://rhq8kgxq-7174.brs.devtunnels.ms/order/getDeliveryPrice', orderDto, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
         const deliveryCost = response.data;
 
         console.log(deliveryCost);

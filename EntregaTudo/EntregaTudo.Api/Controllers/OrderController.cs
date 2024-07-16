@@ -8,16 +8,17 @@ using System.Globalization;
 using EntregaTudo.Core.Domain.Enum;
 using EntregaTudo.Core.Repository;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace EntregaTudo.Api.Controllers;
 
-[AllowAnonymous]
 [ApiController]
+[Authorize]
 [Route("[controller]")]
 public class OrderController(IWebHostEnvironment webHostEnvironment,
     ILogger<OrderController> logger,
     IServiceProvider serviceProvider,
-    IOrderRepository deliveryRepository)
+    IOrderRepository orderRepository)
     : ApiControllerBase(webHostEnvironment, logger, serviceProvider)
 {
     /// <summary>
@@ -60,46 +61,54 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(OrderDto dto)
+    public async Task<IActionResult> Post(OrderDto orderDto)
     {
+        if (User.Identity is not ClaimsIdentity user) return BadRequest("User not found");
+
+        if(user.FindFirst(ClaimTypes.NameIdentifier) == null)
+            return BadRequest("User not found");
+
         var order = new Order
         {
             OriginDelivery = new Address
             {
-                PostalCode = dto.AddressOrigin.PostalCode,
-                AddressComplement = dto.AddressOrigin.AddressComplement,
-                City = dto.AddressOrigin.City,
-                Country = dto.AddressOrigin.Country,
-                Latitude = dto.AddressOrigin.Latitude,
-                Longitude = dto.AddressOrigin.Longitude,
-                Neighborhood = dto.AddressOrigin.Neighborhood,
-                NumberAddress = dto.AddressOrigin.NumberAddress,
-                StreetAddress = dto.AddressOrigin.StreetAddress
+                PostalCode = orderDto.AddressOrigin.PostalCode,
+                AddressComplement = orderDto.AddressOrigin.AddressComplement,
+                City = orderDto.AddressOrigin.City,
+                Country = orderDto.AddressOrigin.Country,
+                Latitude = orderDto.AddressOrigin.Latitude,
+                Longitude = orderDto.AddressOrigin.Longitude,
+                Neighborhood = orderDto.AddressOrigin.Neighborhood,
+                NumberAddress = orderDto.AddressOrigin.NumberAddress,
+                StreetAddress = orderDto.AddressOrigin.StreetAddress
             },
             DestinationDelivery = new Address
             {
-                PostalCode = dto.AddressOrigin.PostalCode,
-                AddressComplement = dto.AddressOrigin.AddressComplement,
-                City = dto.AddressOrigin.City,
-                Country = dto.AddressOrigin.Country,
-                Latitude = dto.AddressOrigin.Latitude,
-                Longitude = dto.AddressOrigin.Longitude,
-                Neighborhood = dto.AddressOrigin.Neighborhood,
-                NumberAddress = dto.AddressOrigin.NumberAddress,
-                StreetAddress = dto.AddressOrigin.StreetAddress
+                PostalCode = orderDto.AddressOrigin.PostalCode,
+                AddressComplement = orderDto.AddressOrigin.AddressComplement,
+                City = orderDto.AddressOrigin.City,
+                Country = orderDto.AddressOrigin.Country,
+                Latitude = orderDto.AddressOrigin.Latitude,
+                Longitude = orderDto.AddressOrigin.Longitude,
+                Neighborhood = orderDto.AddressOrigin.Neighborhood,
+                NumberAddress = orderDto.AddressOrigin.NumberAddress,
+                StreetAddress = orderDto.AddressOrigin.StreetAddress
             },
-            DeliveryCost = dto.DeliveryCost.Value,
+            DeliveryCost = orderDto.DeliveryCost.Value,
             DeliveryNote = "",
             DeliveryStatus = DeliveryStatus.Pending,
-            Items = dto.Items.Select(x => new OrderItem
+            Items = orderDto.Items.Select(x => new OrderItem
             {
                 Name = x.Name,
                 Description = x.Description,
                 Weight = x.Weight
             }).ToList(),
             ScheduledTime = DateTime.Now,
-            DeliveryCode = DeliveryHelper.GenerateDeliveryCode()
+            DeliveryCode = DeliveryHelper.GenerateDeliveryCode(),
+            CustomerId = user.FindFirst(ClaimTypes.NameIdentifier).Value,
         };
+
+        await orderRepository.SaveAsync(order);
 
         return Ok(order);
     }
@@ -107,7 +116,7 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
     [HttpPost("finalizeOrder")]
     public async Task<IActionResult> FinalizeOrder(Guid? id, string deliveryCode)
     {
-        var domain = await deliveryRepository.GetAsync(id.Value);
+        var domain = await orderRepository.GetAsync(id.Value);
 
         if (domain == null)
             return BadRequest("Objeto Delivery não encontrado");
