@@ -16,6 +16,7 @@ import HomeScreen from './home-screen';
 import SelectItemScreen from './select-item';
 import EnterAddressScreen from './enter-address';
 import DeliveryDetailsScreen from './delivery-details';
+import ConfirmOrderScreen from './confirm-order';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -37,9 +38,10 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack.Navigator>
           <Stack.Screen name="home-screen/index" component={HomeScreen} options={{ title: 'Home' }} />
-          <Stack.Screen name="select-item/index" component={SelectItemScreen} options={{ title: 'Select Item' }} />
-          <Stack.Screen name="enter-address/index" component={EnterAddressScreen} options={{ title: 'Enter Address' }} />
-          <Stack.Screen name="delivery-details/index" component={DeliveryDetailsScreen} options={{ title: 'Delivery Details' }} />
+          <Stack.Screen name="select-item/index" component={SelectItemScreen} options={{ title: 'Selecione os Itens' }} />
+          <Stack.Screen name="enter-address/index" component={EnterAddressScreen} options={{ title: 'Digite o Endereço' }} />
+          <Stack.Screen name="delivery-details/index" component={DeliveryDetailsScreen} options={{ title: 'Calcular Pedido' }} />
+          <Stack.Screen name="confirm-order/index" component={ConfirmOrderScreen} options={{ title: 'Confirmar Pedido' }} />
         </Stack.Navigator>
     </ThemeProvider>
   );

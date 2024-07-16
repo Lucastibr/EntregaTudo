@@ -15,6 +15,7 @@ export default function EnterAddressScreen() {
     neighborhood: '',
     city: '',
     state: '',
+    postalCode: '',
   });
   const [number, setNumber] = useState('');
   const [complement, setComplement] = useState('');
@@ -33,6 +34,7 @@ export default function EnterAddressScreen() {
           neighborhood: response.data.bairro || '',
           city: response.data.localidade || '',
           state: response.data.uf || '',
+          postalCode: text,
         });
       } catch (error) {
         Alert.alert('Erro ao buscar endereço', 'Não foi possível buscar o endereço para o CEP informado');
@@ -84,8 +86,22 @@ export default function EnterAddressScreen() {
       try {
         console.log('Sending request to API with data:', orderDto); // Logging data for debugging
         const response = await axios.post('https://rhq8kgxq-7174.brs.devtunnels.ms/order/getDeliveryPrice', orderDto);
-        console.log('API Response:', response.data); // Logging response for debugging
-        Alert.alert('Preço do Delivery', `O valor do delivery é: R$${response.data}`);
+        const deliveryCost = response.data;
+
+        console.log(deliveryCost);
+
+        Alert.alert(
+          'Detalhes da Entrega',
+          `Valor: ${deliveryCost}\n`,
+          [
+            {
+              text: 'OK',
+              onPress: () => {
+                navigation.navigate('confirm-order/index', { item, address, deliveryCost });
+              }
+            }
+          ]
+        );
       } catch (error) {
         console.error('API Call Error:', error); // Logging error for debugging
         Alert.alert('Erro ao calcular preço', 'Não foi possível calcular o preço da entrega');
@@ -184,6 +200,5 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: '#fff',
     color: '#000',
-    zIndex: 1,
   },
 });

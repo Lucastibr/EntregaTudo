@@ -1,4 +1,5 @@
 import { StackNavigationProp } from '@react-navigation/stack';
+import { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -9,6 +10,7 @@ export type RootStackParamList = {
   'select-item/index': undefined;
   EnterAddress: { item: string };
   DeliveryDetails: { item: string; address: string };
+  ConfirmOrder : { item: string; address: string, deliveryCost: Float };
 };
 
 export type HomeScreenNavigationProp = StackNavigationProp<
@@ -49,4 +51,9 @@ export type EnterAddressScreenNavigationProp = StackNavigationProp<
 export type DeliveryDetailsScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   'DeliveryDetails'
+>;
+
+export type ConfirmOrderScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'ConfirmOrder'
 >;
