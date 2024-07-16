@@ -5,12 +5,13 @@ using EntregaTudo.Core.Domain.Infrastructure;
 using EntregaTudo.Shared.Dto;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
-using Codout.Framework.DAL;
 using EntregaTudo.Core.Domain.Enum;
 using EntregaTudo.Core.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EntregaTudo.Api.Controllers;
 
+[AllowAnonymous]
 [ApiController]
 [Route("[controller]")]
 public class OrderController(IWebHostEnvironment webHostEnvironment,
@@ -22,10 +23,10 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
     /// <summary>
     /// Método para calcular o preço do delivery
     /// </summary>
-    /// <param name="deliveryDto"></param>
+    /// <param name="orderDto"></param>
     /// <returns></returns>
-    [HttpGet("getDeliveryPrice")]
-    public async Task<IActionResult> GetDeliveryPrice(OrderDto? deliveryDto)
+    [HttpPost("getDeliveryPrice")]
+    public async Task<IActionResult> GetDeliveryPrice(OrderDto? orderDto)
     {
         var delivery = new Order
         {

@@ -9,23 +9,23 @@ builder.Services.AddMongo(builder.Configuration);
 
 var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty);
 
-builder.Services.AddAuthentication(x =>
-    {
-        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(x =>
-    {
-        x.RequireHttpsMetadata = false;
-        x.SaveToken = true;
-        x.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = false,
-            ValidateAudience = false
-        };
-});
+//builder.Services.AddAuthentication(x =>
+//    {
+//        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//    })
+//    .AddJwtBearer(x =>
+//    {
+//        x.RequireHttpsMetadata = false;
+//        x.SaveToken = true;
+//        x.TokenValidationParameters = new TokenValidationParameters
+//        {
+//            ValidateIssuerSigningKey = true,
+//            IssuerSigningKey = new SymmetricSecurityKey(key),
+//            ValidateIssuer = false,
+//            ValidateAudience = false
+//        };
+//});
 
 builder.Services.AddCors(options =>
 {
@@ -54,8 +54,8 @@ app.UseCors();
 
 //app.UseAuthorization();
 
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 app.MapControllers();
 
