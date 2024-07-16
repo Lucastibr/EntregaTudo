@@ -9,6 +9,7 @@ using EntregaTudo.Core.Domain.Enum;
 using EntregaTudo.Core.Repository;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using MongoDB.Bson;
 
 namespace EntregaTudo.Api.Controllers;
 
@@ -113,8 +114,50 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
         return Ok(order);
     }
 
+    /// <summary>
+    /// Método para o entregador buscar o pedido no cliente
+    /// </summary>
+    /// <param name="orderId"></param>
+    /// <param name="deliveryPersonId"></param>
+    /// <param name="deliveryPersonCode"></param>
+    /// <returns></returns>
+    [HttpPost("sendOrder")]
+    public async Task<IActionResult> SendOrder(ObjectId? orderId, string deliveryPersonId, string? deliveryPersonCode)
+    {
+        /*
+         O que pensei, gerar dois codigos, um para o entregador, outro para quem irá receber, só vai mudar o status do pedido
+        depois que o entregador informar o codigo do delivery, aí vamos gerar outro codigo, para assim ser finalizado e pago. 
+        Caso de uso: O entregador irá buscar o pedido na casa do cliente, assim, o cliente irá informar o codigo, e o entregador irá confirmar nesse metodo, na hora que for entregar o pedido, o usuario que irá receber irá passar o codigo novo para o entregador que será finalizado o pedido.
+         */
+        var domain = await orderRepository.GetAsync(orderId.Value);
+
+        if (domain == null)
+            return BadRequest("Objeto Delivery não encontrado");
+
+        if(domain.DeliveryStatus != DeliveryStatus.Pending)
+            return BadRequest("Delivery não está disponível!");
+
+        if(!domain.ConfirmDelivery(deliveryPersonCode))
+            return BadRequest("O código informado não representa ao código do delivery");
+
+        domain.DeliveryStatus = DeliveryStatus.Sended;
+        domain.DeliveryPersonId = deliveryPersonId;
+        domain.DeliveryCode = DeliveryHelper.GenerateDeliveryCode();
+
+        await orderRepository.SaveOrUpdateAsync(domain);
+
+        return Ok();
+
+    }
+
+    /// <summary>
+    /// Método para o entregador finalizar o pedido no cliente
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="deliveryCode"></param>
+    /// <returns></returns>
     [HttpPost("finalizeOrder")]
-    public async Task<IActionResult> FinalizeOrder(Guid? id, string deliveryCode)
+    public async Task<IActionResult> FinalizeOrder(ObjectId? id, string deliveryCode)
     {
         var domain = await orderRepository.GetAsync(id.Value);
 
@@ -124,7 +167,7 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
         if (!domain.ConfirmDelivery(deliveryCode))
             return BadRequest("O código informado não representa ao código do delivery");
 
-        domain.DeliveryStatus = DeliveryStatus.Ok;
+        await orderRepository.SaveOrUpdateAsync(domain);
 
         return Ok();
 

@@ -50,17 +50,6 @@ public class Order : MongoEntity
         return deliveryCost;
     }
 
-    public TimeSpan CalculateEstimatedDeliveryTime(double distanceInKm, double averageSpeed)
-    {
-        var estimatedTimeInHours = distanceInKm / averageSpeed;
-        return TimeSpan.FromHours(estimatedTimeInHours);
-    }
-
-    public void AddItem(OrderItem item)
-    {
-        Items.Add(item);
-    }
-
     public bool ConfirmDelivery(string providedDeliveryCode)
     {
         if (providedDeliveryCode != DeliveryCode) return false;

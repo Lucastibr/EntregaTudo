@@ -4,4 +4,5 @@ public enum DeliveryStatus
 {
     Ok,
     Pending,
+    Sended,
 }
