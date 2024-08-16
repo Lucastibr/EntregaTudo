@@ -36,7 +36,7 @@ export default function DeliveryWelcomeScreen() {
           <Text style={styles.welcomeText}>Bem-vindo, {userName}!</Text>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate('AvailableDeliveriesScreen')}
+            onPress={() => navigation.navigate('available-orders/index')}
           >
             <Text style={styles.buttonText}>Ver Entregas Disponíveis</Text>
           </TouchableOpacity>

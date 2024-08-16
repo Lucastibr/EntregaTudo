@@ -19,7 +19,8 @@ public class DeliveryPersonController(
     IWebHostEnvironment webHostEnvironment,
     ILogger<DeliveryPersonController> logger,
     IServiceProvider serviceProvider,
-    IDeliveryPersonRepository repository)
+    IDeliveryPersonRepository repository,
+    IOrderRepository orderRepository)
     : RestApiControllerBase<IDeliveryPersonRepository, DeliveryPerson, DeliveryPersonDto>(webHostEnvironment, logger,
         serviceProvider, repository)
 {
@@ -76,5 +77,30 @@ public class DeliveryPersonController(
                 VehicleType = (Core.Domain.Enum.VehicleType?)dto.Vehicle?.VehicleType,
             }
         };
+    }
+
+    [Authorize]
+    [HttpGet("available-orders")]
+    public async Task<IActionResult> AvailableOrders()
+    {
+        var orders = orderRepository.Find(x => x.DeliveryStatus == DeliveryStatus.Pending)
+            .ToList();
+
+        var ordersAvailable = orders.Select(s => new AvailableOrdersDto
+        {
+            Id = s.Id,
+            DeliveryCode = s.DeliveryCode,
+            Address = new AddressDto
+            {
+                AddressComplement = s.DestinationDelivery.AddressComplement,
+                City = s.DestinationDelivery.City,
+                StreetAddress = s.DestinationDelivery.StreetAddress,
+                Neighborhood = s.DestinationDelivery.Neighborhood,
+                PostalCode = s.DestinationDelivery.PostalCode,
+            },
+            OrderPrice = s.DeliveryCost 
+        }).ToList();
+
+        return Json(new {data = ordersAvailable});
     }
 }
