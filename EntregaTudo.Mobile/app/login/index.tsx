@@ -15,25 +15,31 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('https://rhq8kgxq-7174.brs.devtunnels.ms/login/login', {
+      const response = await axios.post('https://vvxs9j9n-7174.brs.devtunnels.ms/login/login', {
         email,
         password,
       });
-      await AsyncStorage.setItem('token', response.data.token);
-      await AsyncStorage.setItem('customerId', response.data.customerId);
+      const { token, customerId, userName, userType } = response.data;
+      
+      await AsyncStorage.setItem('token', token);
+      await AsyncStorage.setItem('customerId', customerId);
+      await AsyncStorage.setItem('userName', userName);
+      await AsyncStorage.setItem('userType', userType);
+      
       Alert.alert('Login realizado com sucesso');
-      console.log(response.data.token);
-      navigation.navigate('home-screen/index');
+
+      if (userType === 'DeliveryPerson') {
+        navigation.navigate('delivery-person-home-screen/index');
+      } else {
+        navigation.navigate('home-screen/index');
+      }
     } catch (error: unknown) {
       console.log(error);
       if (axios.isAxiosError(error)) {
-        // Axios-specific error
         Alert.alert('Erro ao fazer login', error.response?.data?.message || 'Erro desconhecido');
       } else if (error instanceof Error) {
-        // Native Error instance
         Alert.alert('Erro ao fazer login', error.message);
       } else {
-        // Other unexpected errors
         Alert.alert('Erro ao fazer login', 'Erro desconhecido');
       }
     }

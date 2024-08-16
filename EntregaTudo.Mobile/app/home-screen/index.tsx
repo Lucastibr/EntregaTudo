@@ -11,7 +11,13 @@ export default function HomeScreen() {
   const checkAuthStatus = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
-      setIsAuthenticated(!!token); // Update the state based on the token presence
+      const userType = await AsyncStorage.getItem('userType');
+      setIsAuthenticated(!!token); 
+
+      if (userType === 'DeliveryPerson') {
+        navigation.navigate('delivery-person-home-screen/index');
+      } 
+      
     } catch (error) {
       console.error('Error retrieving token:', error);
     }

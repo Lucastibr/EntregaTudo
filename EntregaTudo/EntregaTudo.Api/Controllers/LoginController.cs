@@ -59,9 +59,12 @@ public class LoginController(
 
         if (!authenticate)
             return Unauthorized();
-
+        
         var token = GenerateJwtToken(person);
-        return Ok(new { Token = token, CustomerId = person.Id.ToString() });
+
+        var personType = person.PersonType.ToString();
+
+        return Ok(new { Token = token, CustomerId = person.Id.ToString(), userName = person.FirstName, userType = personType });
     }
 
     private string GenerateJwtToken(dynamic? person)

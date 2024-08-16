@@ -18,6 +18,7 @@ import EnterAddressScreen from './enter-address';
 import DeliveryDetailsScreen from './delivery-details';
 import ConfirmOrderScreen from './confirm-order';
 import Login from './login';
+import DeliveryWelcomeScreen from './delivery-person-home-screen';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -44,6 +45,7 @@ export default function RootLayout() {
           <Stack.Screen name="enter-address/index" component={EnterAddressScreen} options={{ title: 'Digite o Endereço' }} />
           <Stack.Screen name="delivery-details/index" component={DeliveryDetailsScreen} options={{ title: 'Calcular Pedido' }} />
           <Stack.Screen name="confirm-order/index" component={ConfirmOrderScreen} options={{ title: 'Confirmar Pedido' }} />
+          <Stack.Screen name="delivery-person-home-screen/index" component={DeliveryWelcomeScreen} options={{ title: 'Bem vindo, Entregador!' }} />
         </Stack.Navigator>
     </ThemeProvider>
   );
