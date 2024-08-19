@@ -15,7 +15,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('https://vvxs9j9n-7174.brs.devtunnels.ms/login/login', {
+      const response = await axios.post('https://123zp6sf-7174.brs.devtunnels.ms/login/login', {
         email,
         password,
       });

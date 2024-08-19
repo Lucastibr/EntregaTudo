@@ -57,7 +57,7 @@ export default function ConfirmOrderScreen() {
     try {
       const token = await AsyncStorage.getItem('token');
       console.log(token);
-      const response = await axios.post('https://rhq8kgxq-7174.brs.devtunnels.ms/order', orderDto, {
+      const response = await axios.post('https://123zp6sf-7174.brs.devtunnels.ms/order', orderDto, {
         headers: {
           Authorization: `Bearer ${token}`
         }
