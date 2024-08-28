@@ -52,7 +52,7 @@ public class Order : MongoEntity
 
     public bool ConfirmDelivery(string providedDeliveryCode)
     {
-        if (providedDeliveryCode != DeliveryCode) return false;
+        if (!string.Equals(providedDeliveryCode.Trim(), DeliveryCode.Trim(), StringComparison.CurrentCultureIgnoreCase)) return false;
         DeliveryStatus = DeliveryStatus.Ok;
         return true;
     }

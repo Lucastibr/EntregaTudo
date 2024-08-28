@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Linking,ImageBackground, Alert } from 'react-native';
 import logo from '../../assets/images/logo.jpg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 export default function DeliveryDetailScreen({ route }: any) {
   const { order } = route.params;
   console.log(order);
   const [deliveryCode, setDeliveryCode] = useState('');
+  const navigation = useNavigation();
 
   const handleOpenWaze = () => {
     console.log(order.address.latitude);
@@ -16,10 +18,6 @@ export default function DeliveryDetailScreen({ route }: any) {
   };
 
   const handleConfirmDeliveryCode = async () => {
-    console.log(`Código de entrega inserido: ${deliveryCode}`);
-    console.log(order);
-  
-    // Validações antes de chamar a API
     if (!order || !order.id) {
       Alert.alert("Erro", "ID do pedido não encontrado.");
       return;
@@ -42,7 +40,14 @@ export default function DeliveryDetailScreen({ route }: any) {
       });
   
       if (response.ok) {
-        Alert.alert("Sucesso", "Pedido finalizado com sucesso.");
+        Alert.alert("Sucesso", "Pedido finalizado com sucesso.", [
+          {
+            text: 'OK',
+            onPress: () => {
+              navigation.navigate(('delivery-person-home-screen/index'));
+            }
+          }
+        ]);
       } else {
         // Verifica se há um corpo na resposta
         const text = await response.text();

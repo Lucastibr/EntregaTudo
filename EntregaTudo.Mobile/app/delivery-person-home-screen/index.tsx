@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity,ImageBackground } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity,ImageBackground,Alert  } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import logo from '../../assets/images/logo.jpg';
@@ -28,23 +28,42 @@ export default function DeliveryWelcomeScreen() {
     fetchUserData();
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem('userName');
+      await AsyncStorage.removeItem('userType');
+      Alert.alert('Logout', 'Você saiu com sucesso!');
+      navigation.navigate('login/index'); // Redireciona para a tela de login
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+
   return (
     <ImageBackground source={logo} style={styles.background}>
-    <View style={styles.overlay}>
-      {userName ? (
-        <>
-          <Text style={styles.welcomeText}>Bem-vindo, {userName}!</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('available-orders/index')}
-          >
-            <Text style={styles.buttonText}>Ver Entregas Disponíveis</Text>
-          </TouchableOpacity>
-        </>
-      ) : (
-        <Text style={styles.loadingText}>Carregando...</Text>
-      )}
-    </View>
+      <View style={styles.overlay}>
+        {userName ? (
+          <>
+            <Text style={styles.welcomeText}>Bem-vindo, {userName}!</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('available-orders/index')}
+            >
+              <Text style={styles.buttonText}>Ver Entregas Disponíveis</Text>
+            </TouchableOpacity>
+
+            {/* Botão de logout */}
+            <TouchableOpacity
+              style={styles.button}
+              onPress={handleLogout}
+            >
+              <Text style={styles.buttonText}>Sair</Text>
+            </TouchableOpacity>
+          </>
+        ) : (
+          <Text style={styles.loadingText}>Carregando...</Text>
+        )}
+      </View>
     </ImageBackground>
   );
 }
