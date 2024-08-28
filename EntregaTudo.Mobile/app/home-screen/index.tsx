@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     marginBottom: 20,
-    color: '#fff', // Title color for better visibility
+    color: '#fff', 
   },
   background: {
     flex: 1,

@@ -32,7 +32,7 @@ export default function AvailableDeliveriesScreen() {
     const fetchAvailableOrders = async () => {
       try {
         const token = await AsyncStorage.getItem('token');
-        const response = await axios.get('https://123zp6sf-7174.brs.devtunnels.ms/deliveryperson/available-orders', {
+        const response = await axios.get('https://45jgr80j-7174.brs.devtunnels.ms/deliveryperson/available-orders', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

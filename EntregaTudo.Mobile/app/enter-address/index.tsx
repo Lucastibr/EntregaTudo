@@ -87,7 +87,7 @@ export default function EnterAddressScreen() {
       try {
         const token = await AsyncStorage.getItem('token');
       console.log(token);
-        const response = await axios.post('https://123zp6sf-7174.brs.devtunnels.ms/order/getDeliveryPrice', orderDto, {
+        const response = await axios.post('https://45jgr80j-7174.brs.devtunnels.ms/order/getDeliveryPrice', orderDto, {
           headers: {
             Authorization: `Bearer ${token}`
           }

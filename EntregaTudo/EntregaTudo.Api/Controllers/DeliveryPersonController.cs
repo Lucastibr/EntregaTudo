@@ -1,4 +1,5 @@
 ﻿using EntregaTudo.Api.Controllers.Base;
+using EntregaTudo.Core.Domain.Business.Delivery;
 using EntregaTudo.Core.Domain.Business.Vehicle;
 using EntregaTudo.Core.Domain.Enum;
 using EntregaTudo.Core.Domain.User;
@@ -85,10 +86,10 @@ public class DeliveryPersonController(
     {
         var orders = orderRepository.Find(x => x.DeliveryStatus == DeliveryStatus.Pending)
             .ToList();
-
+        
         var ordersAvailable = orders.Select(s => new AvailableOrdersDto
         {
-            Id = s.Id,
+            Id = s.Id.ToString(),
             DeliveryCode = s.DeliveryCode,
             Address = new AddressDto
             {
@@ -97,6 +98,8 @@ public class DeliveryPersonController(
                 StreetAddress = s.DestinationDelivery.StreetAddress,
                 Neighborhood = s.DestinationDelivery.Neighborhood,
                 PostalCode = s.DestinationDelivery.PostalCode,
+                Latitude = s.DestinationDelivery.Latitude,
+                Longitude = s.DestinationDelivery.Longitude,
             },
             OrderPrice = s.DeliveryCost 
         }).ToList();

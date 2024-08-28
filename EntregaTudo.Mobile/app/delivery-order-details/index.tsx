@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Linking,ImageBackground } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Linking,ImageBackground, Alert } from 'react-native';
 import logo from '../../assets/images/logo.jpg';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function DeliveryDetailScreen({ route }: any) {
   const { order } = route.params;
+  console.log(order);
   const [deliveryCode, setDeliveryCode] = useState('');
 
   const handleOpenWaze = () => {
@@ -13,10 +15,56 @@ export default function DeliveryDetailScreen({ route }: any) {
     Linking.openURL(wazeUrl);
   };
 
-  const handleConfirmDeliveryCode = () => {
+  const handleConfirmDeliveryCode = async () => {
     console.log(`Código de entrega inserido: ${deliveryCode}`);
-  };
+    console.log(order);
+  
+    // Validações antes de chamar a API
+    if (!order || !order.id) {
+      Alert.alert("Erro", "ID do pedido não encontrado.");
+      return;
+    }
+  
+    if (deliveryCode === null || deliveryCode === "") {
+      Alert.alert("Erro", "Código Não Informado!");
+      return;
+    }
 
+    try {
+      var token = await AsyncStorage.getItem('token');
+      console.log(token);
+      const response = await fetch(`https://45jgr80j-7174.brs.devtunnels.ms/order/finalizeOrder?id=${order.id}&deliveryCode=${deliveryCode}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (response.ok) {
+        Alert.alert("Sucesso", "Pedido finalizado com sucesso.");
+      } else {
+        // Verifica se há um corpo na resposta
+        const text = await response.text();
+        console.log(text);
+        let errorData;
+        
+        try {
+          errorData = JSON.parse(text);
+        } catch (e) {
+          console.error("Erro ao analisar JSON:", e);
+          Alert.alert("Erro", "Erro ao finalizar o pedido. Resposta inesperada do servidor.");
+          return;
+        }
+  
+        Alert.alert("Erro", errorData.message || "Erro ao finalizar o pedido.");
+      }
+    } catch (error) {
+      console.error("Erro ao chamar a API:", error);
+      Alert.alert("Erro", "Erro de rede ou problema com o servidor.");
+    }
+  };
+  
   return (
     <ImageBackground source={logo} style={styles.background}>
     <View style={styles.container}>

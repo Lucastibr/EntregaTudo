@@ -162,10 +162,10 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
         var domain = await orderRepository.GetAsync(id.Value);
 
         if (domain == null)
-            return BadRequest("Objeto Delivery não encontrado");
+            return BadRequest(new {message = "Objeto Delivery não encontrado" });
 
         if (!domain.ConfirmDelivery(deliveryCode))
-            return BadRequest("O código informado não representa ao código do delivery");
+            BadRequest(new { message = "O código informado não representa ao código do pedido, tente novamente!" });
 
         await orderRepository.SaveOrUpdateAsync(domain);
 
