@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import logo from '../../assets/images/logo.jpg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import BaseUrl from '../../config';
 
 // Define the type for the order
 interface Order {
@@ -32,7 +33,7 @@ export default function AvailableDeliveriesScreen() {
     const fetchAvailableOrders = async () => {
       try {
         const token = await AsyncStorage.getItem('token');
-        const response = await axios.get('https://45jgr80j-7174.brs.devtunnels.ms/deliveryperson/available-orders', {
+        const response = await axios.get(`${BaseUrl}/deliveryperson/available-orders`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

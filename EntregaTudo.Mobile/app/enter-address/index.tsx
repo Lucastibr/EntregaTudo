@@ -4,6 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import logo from '../../assets/images/logo.jpg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import BaseUrl from '../../config';
 
 export default function EnterAddressScreen() {
   const navigation = useNavigation();
@@ -87,7 +88,7 @@ export default function EnterAddressScreen() {
       try {
         const token = await AsyncStorage.getItem('token');
       console.log(token);
-        const response = await axios.post('https://45jgr80j-7174.brs.devtunnels.ms/order/getDeliveryPrice', orderDto, {
+        const response = await axios.post(`${BaseUrl}/order/getDeliveryPrice`, orderDto, {
           headers: {
             Authorization: `Bearer ${token}`
           }

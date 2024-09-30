@@ -4,6 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import logo from '../../assets/images/logo.jpg';
+import BaseUrl from '../../config';
 
 export default function ConfirmOrderScreen() {
   const navigation = useNavigation();
@@ -57,7 +58,7 @@ export default function ConfirmOrderScreen() {
     try {
       const token = await AsyncStorage.getItem('token');
       console.log(token);
-      const response = await axios.post('https://45jgr80j-7174.brs.devtunnels.ms/order', orderDto, {
+      const response = await axios.post(`${BaseUrl}/order`, orderDto, {
         headers: {
           Authorization: `Bearer ${token}`
         }

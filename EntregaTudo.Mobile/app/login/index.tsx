@@ -4,6 +4,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LoginScreenNavigationProp } from '../../components/types';
 import logo from '../../assets/images/logo.jpg';
+import BaseUrl from '../../config';
 
 type Props = {
   navigation: LoginScreenNavigationProp;
@@ -15,7 +16,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('https://45jgr80j-7174.brs.devtunnels.ms/login/login', {
+      const response = await axios.post(`${BaseUrl}/login/login`, {
         email,
         password,
       });

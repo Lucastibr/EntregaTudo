@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Linking,ImageBackg
 import logo from '../../assets/images/logo.jpg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import BaseUrl from '../../config';
 
 export default function DeliveryDetailScreen({ route }: any) {
   const { order } = route.params;
@@ -31,7 +32,7 @@ export default function DeliveryDetailScreen({ route }: any) {
     try {
       var token = await AsyncStorage.getItem('token');
       console.log(token);
-      const response = await fetch(`https://45jgr80j-7174.brs.devtunnels.ms/order/finalizeOrder?id=${order.id}&deliveryCode=${deliveryCode}`, {
+      const response = await fetch(`${BaseUrl}/order/finalizeOrder?id=${order.id}&deliveryCode=${deliveryCode}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
