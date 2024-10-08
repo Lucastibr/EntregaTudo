@@ -12,7 +12,7 @@ export default function HomeScreen() {
     try {
       const token = await AsyncStorage.getItem('token');
       const userType = await AsyncStorage.getItem('userType');
-      setIsAuthenticated(!!token); 
+      setIsAuthenticated(!!false); 
 
       if (userType === 'DeliveryPerson') {
         navigation.navigate('delivery-person-home-screen/index');

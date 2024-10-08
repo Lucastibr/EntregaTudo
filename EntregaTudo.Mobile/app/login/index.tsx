@@ -68,10 +68,10 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <View style={styles.signupContainer}>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SignupScreenCustomer')}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('signup-screen-customer/index')}>
             <Text style={styles.buttonText}>Cadastrar Usuário</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SignupScreenDeliveryPerson')}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('signup-screen-delivery-person/index')}>
             <Text style={styles.buttonText}>Cadastrar Entregador</Text>
           </TouchableOpacity>
         </View>
