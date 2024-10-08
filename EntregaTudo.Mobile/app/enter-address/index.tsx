@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, ImageBackground } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Alert, ImageBackground, Platform } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import logo from '../../assets/images/logo.jpg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BaseUrl from '../../config';
+import * as Location from 'expo-location';
 
 export default function EnterAddressScreen() {
   const navigation = useNavigation();
@@ -21,6 +22,60 @@ export default function EnterAddressScreen() {
   });
   const [number, setNumber] = useState('');
   const [complement, setComplement] = useState('');
+  const [originAddress, setOriginAddress] = useState({
+    street: '',
+    neighborhood: '',
+    city: '',
+    state: '',
+    postalCode: '',
+    latitude: 0,
+    longitude: 0,
+  });
+
+  useEffect(() => {
+    const getCurrentLocation = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permissão negada', 'Não foi possível obter a localização do dispositivo.');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      const { latitude, longitude } = location.coords;
+
+      try {
+        const response = await axios.get('https://api.opencagedata.com/geocode/v1/json', {
+          params: {
+            key: '33792152bb8e45cbbb168b7d11f688a9', // Substitua pela sua chave de API
+            q: `${latitude},${longitude}`,
+            language: 'pt-br',
+          },
+        });
+
+        const { results } = response.data;
+        if (results.length > 0) {
+          const locationData = results[0].components;
+
+          setOriginAddress({
+            street: locationData.road || '',
+            neighborhood: locationData.suburb || '',
+            city: locationData.city || locationData.town || locationData.village || '',
+            state: locationData.state || '',
+            postalCode: locationData.postcode || '',
+            latitude,
+            longitude,
+          });
+        } else {
+          Alert.alert('Erro', 'Não foi possível encontrar o endereço com base na localização.');
+        }
+      } catch (error) {
+        console.error('Erro ao buscar endereço:', error);
+        Alert.alert('Erro', 'Não foi possível buscar o endereço com base na localização.');
+      }
+    };
+
+    getCurrentLocation();
+  }, []);
 
   const handleCepChange = async (text: string) => {
     setCep(text);
@@ -44,27 +99,19 @@ export default function EnterAddressScreen() {
     }
   };
 
-  const handleNext = () => {
-    if (address.street.trim() && address.city.trim() && number.trim()) {
-      navigation.navigate('delivery-details/index', { item, address: JSON.stringify(address) });
-    } else {
-      Alert.alert('Por favor, insira o endereço de entrega completo');
-    }
-  };
-
   const handleCalculatePrice = async () => {
     if (address.street.trim() && address.city.trim() && number.trim()) {
       const orderDto = {
         AddressOrigin: {
-          StreetAddress: "Rua Fictícia", // Endereço de origem fictício ou dinâmico
-          NumberAddress: "123",
+          StreetAddress: originAddress.street,
+          NumberAddress: "123", // Use um número estático ou dinâmico para o endereço de origem
           AddressComplement: "",
-          Neighborhood: "Bairro Fictício",
-          City: "Cidade Fictícia",
-          PostalCode: "75384618",
+          Neighborhood: originAddress.neighborhood,
+          City: originAddress.city,
+          PostalCode: originAddress.postalCode,
           Country: "Brasil",
-          Latitude: 0,
-          Longitude: 0
+          Latitude: originAddress.latitude,
+          Longitude: originAddress.longitude,
         },
         AddressDestiny: {
           StreetAddress: address.street,
@@ -74,8 +121,8 @@ export default function EnterAddressScreen() {
           City: address.city,
           PostalCode: cep,
           Country: "Brasil",
-          Latitude: 0,
-          Longitude: 0
+          Latitude: 0, // Latitude dinâmica se disponível
+          Longitude: 0, // Longitude dinâmica se disponível
         },
         Items: [
           {
@@ -87,7 +134,7 @@ export default function EnterAddressScreen() {
 
       try {
         const token = await AsyncStorage.getItem('token');
-      console.log(token);
+        console.log(token);
         const response = await axios.post(`${BaseUrl}/order/getDeliveryPrice`, orderDto, {
           headers: {
             Authorization: `Bearer ${token}`
@@ -110,9 +157,17 @@ export default function EnterAddressScreen() {
           ]
         );
       } catch (error) {
-        console.error('API Call Error:', error); // Logging error for debugging
+        console.error('API Call Error:', error);
         Alert.alert('Erro ao calcular preço', 'Não foi possível calcular o preço da entrega');
       }
+    } else {
+      Alert.alert('Por favor, insira o endereço de entrega completo');
+    }
+  };
+
+  const handleNext = () => {
+    if (address.street.trim() && address.city.trim() && number.trim()) {
+      navigation.navigate('delivery-details/index', { item, address: JSON.stringify(address) });
     } else {
       Alert.alert('Por favor, insira o endereço de entrega completo');
     }

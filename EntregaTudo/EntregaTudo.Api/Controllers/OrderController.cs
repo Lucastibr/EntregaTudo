@@ -30,21 +30,21 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
     [HttpPost("getDeliveryPrice")]
     public async Task<IActionResult> GetDeliveryPrice(OrderDto? orderDto)
     {
-        var delivery = new Order
+            var delivery = new Order
         {
             OriginDelivery = new Address
             {
-                PostalCode = "75384618"
+                PostalCode = orderDto.AddressOrigin.PostalCode
             },
             DestinationDelivery = new Address
             {
-                PostalCode = "74915120"
+                PostalCode = orderDto.AddressDestiny.PostalCode
             },
             Items =
             [
                 new OrderItem
                 {
-                    Weight = 2.5f
+                    Weight = 1
                 }
             ]
         };
@@ -56,7 +56,7 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
             Convert.ToDouble(distanceDestiny.Lng, CultureInfo.InvariantCulture),
             Convert.ToDouble(distanceDestiny.Lat, CultureInfo.InvariantCulture));
 
-        var getCost = delivery.CalculateDeliveryCost(distanceInKm, 2);
+        var getCost = delivery.CalculateDeliveryCost(distanceInKm, 1);
 
         return Ok(getCost);
     }
