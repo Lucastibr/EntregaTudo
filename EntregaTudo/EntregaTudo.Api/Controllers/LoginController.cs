@@ -53,6 +53,9 @@ public class LoginController(
 
         person = customer.GetPersonByEmail(login.Email) ?? (Person?)deliveryPerson.GetDeliveryPersonByEmail(login.Email);
 
+        if(person == null)
+            return Unauthorized();
+
         var authenticate = person.PersonType == PersonType.User
             ? customer.VerifyPassword(login.Password, person.PasswordHash)
             : deliveryPerson.VerifyPassword(login.Password, person.PasswordHash);

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, ImageBackground, ScrollView, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import logo from '../../assets/images/logo.jpg';
-import BaseUrl from '../../config';
+import { BASE_URL} from '../../config';
 
 export default function SignupScreen() {
   const [firstName, setFirstName] = useState('');
@@ -46,7 +46,7 @@ export default function SignupScreen() {
   
       console.log('Payload being sent:', payload);
   
-      const response = await fetch(`${BaseUrl}/deliveryperson/create`, {
+      const response = await fetch(`${BASE_URL}/deliveryperson/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
 import logo from '../../assets/images/logo.jpg';
-import BaseUrl from '../../config';
+import { BASE_URL} from '../../config';
 
 export default function SignupScreen() {
   const [firstName, setFirstName] = useState('');
@@ -15,7 +15,7 @@ export default function SignupScreen() {
   const [userData, setUserData] = useState(null);
 
   const handleSignup = () => {
-    fetch(`${BaseUrl}/customer/create`, {
+    fetch(`${BASE_URL}/customer/create`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
