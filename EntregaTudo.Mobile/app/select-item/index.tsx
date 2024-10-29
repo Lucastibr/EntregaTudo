@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet, ImageBackground } from 'react-native';
+import { View, Text, TextInput, Alert, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../components/types';
 import logo from '../../assets/images/logo.jpg';
@@ -32,7 +32,9 @@ const SelectItemScreen: React.FC<Props> = ({ navigation }) => {
           placeholder="Ex: Documento"
           placeholderTextColor="#ccc"
         />
-        <Button title="Próximo" onPress={handleNext} />
+        <TouchableOpacity style={styles.button} onPress={handleNext}>
+          <Text style={styles.buttonText}>Próximo</Text>
+        </TouchableOpacity>
       </View>
     </ImageBackground>
   );
@@ -66,6 +68,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     backgroundColor: '#fff',
     borderRadius: 5,
+  },
+  button: {
+    width: '100%',
+    paddingVertical: 10,
+    backgroundColor: '#2196F3',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

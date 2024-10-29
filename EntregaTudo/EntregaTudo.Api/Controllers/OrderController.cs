@@ -30,7 +30,7 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
     [HttpPost("getDeliveryPrice")]
     public async Task<IActionResult> GetDeliveryPrice(OrderDto? orderDto)
     {
-            var delivery = new Order
+        var delivery = new Order
         {
             OriginDelivery = new Address
             {
@@ -43,9 +43,9 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
             Items =
             [
                 new OrderItem
-                {
-                    Weight = 1
-                }
+                    {
+                        Weight = 1
+                    }
             ]
         };
 
@@ -66,7 +66,7 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
     {
         if (User.Identity is not ClaimsIdentity user) return BadRequest("User not found");
 
-        if(user.FindFirst(ClaimTypes.NameIdentifier) == null)
+        if (user.FindFirst(ClaimTypes.NameIdentifier) == null)
             return BadRequest("User not found");
 
         var order = new Order
@@ -111,7 +111,33 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
 
         await orderRepository.SaveAsync(order);
 
-        return Ok(order);
+        return Ok(new
+        {
+            Id =order.Id.ToString(),
+            order.DeliveryCode,
+            order.DeliveryCost,
+            order.DestinationDelivery,
+            Items = order.Items.Select(i => new { i.Name, i.Description, i.Weight }).ToList()
+        });
+    }
+
+    [HttpGet("getOrder")]
+    public async Task<IActionResult> GetOrder(string id)
+    {
+        if (User.Identity is not ClaimsIdentity user) return BadRequest("User not found");
+
+        if (user.FindFirst(ClaimTypes.NameIdentifier) == null)
+            return BadRequest("User not found");
+
+        var order = await orderRepository.GetAsync(id);
+
+        return Ok(new
+        {
+            order.DeliveryCode,
+            order.DeliveryCost,
+            order.DestinationDelivery,
+            Items = order.Items.Select(i => new { i.Name, i.Description, i.Weight }).ToList()
+        });
     }
 
     /// <summary>
@@ -134,10 +160,10 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
         if (domain == null)
             return BadRequest("Objeto Delivery não encontrado");
 
-        if(domain.DeliveryStatus != DeliveryStatus.Pending)
+        if (domain.DeliveryStatus != DeliveryStatus.Pending)
             return BadRequest("Delivery não está disponível!");
 
-        if(!domain.ConfirmDelivery(deliveryPersonCode))
+        if (!domain.ConfirmDelivery(deliveryPersonCode))
             return BadRequest("O código informado não representa ao código do delivery");
 
         domain.DeliveryStatus = DeliveryStatus.Sended;
@@ -162,7 +188,7 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
         var domain = await orderRepository.GetAsync(id.Value);
 
         if (domain == null)
-            return BadRequest(new {message = "Objeto Delivery não encontrado" });
+            return BadRequest(new { message = "Objeto Delivery não encontrado" });
 
         if (!domain.ConfirmDelivery(deliveryCode))
             return BadRequest(new { message = "O código informado não representa ao código do pedido, tente novamente!" });

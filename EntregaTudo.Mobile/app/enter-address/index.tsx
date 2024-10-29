@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ImageBackground, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ImageBackground } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import logo from '../../assets/images/logo.jpg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BASE_URL, API_KEY } from '@/config'; '../../config';
+import { BASE_URL, API_KEY } from '@/config';
 import * as Location from 'expo-location';
 import Modal from 'react-native-modal';
 
@@ -34,6 +34,7 @@ export default function EnterAddressScreen() {
   });
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+  const [deliveryCost, setDeliveryCost] = useState<number | null>(null);
 
   useEffect(() => {
     const getCurrentLocation = async () => {
@@ -49,7 +50,7 @@ export default function EnterAddressScreen() {
       try {
         const response = await axios.get('https://api.opencagedata.com/geocode/v1/json', {
           params: {
-            key: `${API_KEY}`, // Substitua pela sua chave de API
+            key: `${API_KEY}`,
             q: `${latitude},${longitude}`,
             language: 'pt-br',
           },
@@ -112,7 +113,7 @@ export default function EnterAddressScreen() {
       const orderDto = {
         AddressOrigin: {
           StreetAddress: originAddress.street,
-          NumberAddress: "123", // Use um número estático ou dinâmico para o endereço de origem
+          NumberAddress: "123",
           AddressComplement: "",
           Neighborhood: originAddress.neighborhood,
           City: originAddress.city,
@@ -129,34 +130,20 @@ export default function EnterAddressScreen() {
           City: address.city,
           PostalCode: cep,
           Country: "Brasil",
-          Latitude: 0, // Latitude dinâmica se disponível
-          Longitude: 0, // Longitude dinâmica se disponível
+          Latitude: 0,
+          Longitude: 0,
         },
-        Items: [
-          {
-            Weight: 2.5 // Peso fictício do item ou pode ser dinâmico
-          }
-        ],
+        Items: [{ Weight: 2.5 }],
         DeliveryCost: null
       };
 
       try {
         const token = await AsyncStorage.getItem('token');
-        console.log(token);
         const response = await axios.post(`${BASE_URL}/order/getDeliveryPrice`, orderDto, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          headers: { Authorization: `Bearer ${token}` }
         });
-        const deliveryCost = response.data;
-
-        // Formatando o valor como moeda BRL
-        const formattedCost = deliveryCost.toLocaleString('pt-BR', {
-          style: 'currency',
-          currency: 'BRL'
-        });
-
-        showModal('Detalhes da Entrega', `Valor: ${formattedCost}`);
+        setDeliveryCost(response.data);
+        setModalVisible(true);
       } catch (error) {
         console.error('API Call Error:', error);
         showModal('Erro', 'Não foi possível calcular o preço da entrega');
@@ -166,11 +153,34 @@ export default function EnterAddressScreen() {
     }
   };
 
-  const handleNext = () => {
-    if (address.street.trim() && address.city.trim() && number.trim()) {
-      navigation.navigate('delivery-details/index', { item, address: JSON.stringify(address) });
-    } else {
-      showModal('Erro', 'Por favor, insira o endereço de entrega completo');
+  const handleConfirmOrder = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const customerId = await AsyncStorage.getItem('customerId');
+      const orderDto = {
+        CustomerId: customerId,
+        AddressOrigin: originAddress,
+        AddressDestiny: {
+          ...address,
+          NumberAddress: number,
+          AddressComplement: complement,
+        },
+        Items: [{ Name: item, Weight: 2.5 }],
+        DeliveryCost: deliveryCost,
+      };
+
+      var response = await axios.post(`${BASE_URL}/order`, orderDto, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      console.log(response.data);
+
+      Alert.alert('Pedido Confirmado', 'Seu pedido foi confirmado com sucesso!');
+      setModalVisible(false);
+      navigation.navigate('delivery-details/index', { item, address: JSON.stringify(response.data.destinationDelivery), id: response.data.id });
+    } catch (error) {
+      console.error('Erro ao confirmar pedido:', error);
+      Alert.alert('Erro', 'Não foi possível confirmar o pedido. Tente novamente.');
     }
   };
 
@@ -232,16 +242,24 @@ export default function EnterAddressScreen() {
         <TouchableOpacity style={styles.button} onPress={handleCalculatePrice}>
           <Text style={styles.buttonText}>Calcular Preço</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleNext}>
-          <Text style={styles.buttonText}>Próximo</Text>
-        </TouchableOpacity>
       </View>
       <Modal isVisible={isModalVisible} onBackdropPress={() => setModalVisible(false)}>
         <View style={styles.modalContent}>
-          <Text style={styles.modalText}>{modalMessage}</Text>
-          <TouchableOpacity style={styles.modalButton} onPress={() => setModalVisible(false)}>
-            <Text style={styles.modalButtonText}>Fechar</Text>
-          </TouchableOpacity>
+          {deliveryCost !== null ? (
+            <>
+              <Text style={styles.modalText}>Item: {item}</Text>
+              <Text style={styles.modalText}>Endereço: {`${address.street}, ${number} - ${address.city}, ${address.state}`}</Text>
+              <Text style={styles.modalText}>Valor da Entrega: R$ {deliveryCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</Text>
+              <TouchableOpacity style={styles.modalButton} onPress={handleConfirmOrder}>
+                <Text style={styles.modalButtonText}>Efetuar Pedido</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.modalButton} onPress={() => setModalVisible(false)}>
+                <Text style={styles.modalButtonText}>Voltar</Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <Text style={styles.modalText}>{modalMessage}</Text>
+          )}
         </View>
       </Modal>
     </ImageBackground>
@@ -306,6 +324,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#2196F3',
     padding: 10,
     borderRadius: 8,
+    marginTop: 10,
+    width: '100%',
+    alignItems: 'center',
   },
   modalButtonText: {
     color: '#fff',

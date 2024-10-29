@@ -6,11 +6,14 @@ export type RootStackParamList = {
   SignupScreenCustomer: undefined;
   SignupScreenDeliveryPerson: undefined;
   Login: undefined;
-  Profile: undefined; 
+  Profile: undefined;
   'select-item/index': undefined;
   EnterAddress: { item: string };
-  DeliveryDetails: { item: string; address: string };
-  ConfirmOrder : { item: string; address: string, deliveryCost: Float };
+  DeliveryDetails: {
+    item: string; address: string, deliveryCode: string;
+    deliveryCost: number;
+  };
+  ConfirmOrder: { item: string; address: string, deliveryCost: Float };
 };
 
 export type HomeScreenNavigationProp = StackNavigationProp<
