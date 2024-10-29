@@ -112,6 +112,13 @@ export default function DeliveryDetailsScreen() {
         >
           <Text style={styles.buttonText}>Ver Meus Pedidos</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('home-screen/index')}
+        >
+          <Text style={styles.buttonText}>Inicio</Text>
+        </TouchableOpacity>
       </View>
     </ImageBackground>
   );
