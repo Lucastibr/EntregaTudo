@@ -41,7 +41,13 @@ export default function HomeScreen() {
               style={styles.button}
               onPress={() => navigation.navigate('select-item/index')}
             >
-              <Text style={styles.buttonText}>Selecionar Item</Text>
+              <Text style={styles.buttonText}>Enviar Item</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('orders-customers/index')}
+            >
+              <Text style={styles.buttonText}>Meus Pedidos</Text>
             </TouchableOpacity>
           </>
         ) : (

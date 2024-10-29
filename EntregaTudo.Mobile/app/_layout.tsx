@@ -16,7 +16,7 @@ import HomeScreen from './home-screen';
 import SelectItemScreen from './select-item';
 import EnterAddressScreen from './enter-address';
 import DeliveryDetailsScreen from './delivery-details';
-import ConfirmOrderScreen from './confirm-order';
+import OrderCustomers from './orders-customers';
 import Login from './login';
 import DeliveryWelcomeScreen from './delivery-person-home-screen';
 import AvailableOrders from './available-orders';
@@ -47,8 +47,8 @@ export default function RootLayout() {
           <Stack.Screen name="login/index" component={Login} options={{ title: 'Login' }} />
           <Stack.Screen name="select-item/index" component={SelectItemScreen} options={{ title: 'Selecione os Itens' }} />
           <Stack.Screen name="enter-address/index" component={EnterAddressScreen} options={{ title: 'Digite o Endereço' }} />
-          <Stack.Screen name="delivery-details/index" component={DeliveryDetailsScreen} options={{ title: 'Calcular Pedido' }} />
-          <Stack.Screen name="confirm-order/index" component={ConfirmOrderScreen} options={{ title: 'Confirmar Pedido' }} />
+          <Stack.Screen name="delivery-details/index" component={DeliveryDetailsScreen} options={{ title: 'Detalhes do Pedido' }} />
+          <Stack.Screen name="orders-customers/index" component={OrderCustomers} options={{ title: 'Meus Pedidos' }} />
           <Stack.Screen name="delivery-person-home-screen/index" component={DeliveryWelcomeScreen} options={{ title: 'Bem vindo, Entregador!' }} />
           <Stack.Screen name="available-orders/index" component={AvailableOrders} options={{ title: 'Selecione a Entrega!' }} />
           <Stack.Screen name="delivery-order-details/index" component={DeliveryOrderDetails} options={{ title: 'Entrega em Andamento' }} />

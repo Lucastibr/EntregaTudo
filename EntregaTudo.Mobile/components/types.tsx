@@ -13,7 +13,7 @@ export type RootStackParamList = {
     item: string; address: string, deliveryCode: string;
     deliveryCost: number;
   };
-  ConfirmOrder: { item: string; address: string, deliveryCost: Float };
+  'orders-customers/index': undefined;
 };
 
 export type HomeScreenNavigationProp = StackNavigationProp<
@@ -58,5 +58,5 @@ export type DeliveryDetailsScreenNavigationProp = StackNavigationProp<
 
 export type ConfirmOrderScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
-  'ConfirmOrder'
+ 'orders-customers/index'
 >;

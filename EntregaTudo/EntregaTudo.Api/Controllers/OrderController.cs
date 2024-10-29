@@ -10,6 +10,7 @@ using EntregaTudo.Core.Repository;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using MongoDB.Bson;
+using static EntregaTudo.Shared.Dto.OrderDetailsDto;
 
 namespace EntregaTudo.Api.Controllers;
 
@@ -85,24 +86,24 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
             },
             DestinationDelivery = new Address
             {
-                PostalCode = orderDto.AddressOrigin.PostalCode,
-                AddressComplement = orderDto.AddressOrigin.AddressComplement,
-                City = orderDto.AddressOrigin.City,
-                Country = orderDto.AddressOrigin.Country,
-                Latitude = orderDto.AddressOrigin.Latitude,
-                Longitude = orderDto.AddressOrigin.Longitude,
-                Neighborhood = orderDto.AddressOrigin.Neighborhood,
-                NumberAddress = orderDto.AddressOrigin.NumberAddress,
-                StreetAddress = orderDto.AddressOrigin.StreetAddress
+                PostalCode = orderDto.AddressDestiny.PostalCode,
+                AddressComplement = orderDto.AddressDestiny.AddressComplement,
+                City = orderDto.AddressDestiny.City,
+                Country = orderDto.AddressDestiny.Country,
+                Latitude = orderDto.AddressDestiny.Latitude,
+                Longitude = orderDto.AddressDestiny.Longitude,
+                Neighborhood = orderDto.AddressDestiny.Neighborhood,
+                NumberAddress = orderDto.AddressDestiny.NumberAddress,
+                StreetAddress = orderDto.AddressDestiny.StreetAddress
             },
             DeliveryCost = orderDto.DeliveryCost.Value,
             DeliveryNote = "",
             DeliveryStatus = DeliveryStatus.Pending,
-            Items = orderDto.Items.Select(x => new OrderItem
+            Items = orderDto.Items.Select(o => new OrderItem
             {
-                Name = x.Name,
-                Description = x.Description,
-                Weight = x.Weight
+                Name = o.Name,
+                Description = o.Description ?? string.Empty,
+                Weight = o.Weight ?? 0
             }).ToList(),
             ScheduledTime = DateTime.Now,
             DeliveryCode = DeliveryHelper.GenerateDeliveryCode(),
@@ -137,6 +138,65 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
             order.DeliveryCost,
             order.DestinationDelivery,
             Items = order.Items.Select(i => new { i.Name, i.Description, i.Weight }).ToList()
+        });
+    }
+
+
+    /// <summary>
+    /// Método para buscar os pedidos do cliente
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("orders-customer")]
+    public async Task<IActionResult> AllOrdersCustomer(string id)
+    {
+        if (User.Identity is not ClaimsIdentity user) return BadRequest("User not found");
+
+        if (user.FindFirst(ClaimTypes.NameIdentifier) == null)
+            return BadRequest("User not found");
+
+        var orders = orderRepository.Find(x => x.CustomerId == id).ToList();
+
+        var order = new List<OrderDetailsDto>();
+
+        foreach (var item in orders)
+        {
+            var status = item.DeliveryStatus.ToString() switch
+            {
+                "Ok" => "Entregue",
+                "Pending" => "Aguardando Entregador",
+                "Sended" => "Em Trânsito",
+                _ => ""
+            };
+
+            order.Add(new OrderDetailsDto
+            {
+                DeliveryCode = item.DeliveryCode,
+                DeliveryCost = item.DeliveryCost,
+                DeliveryStatus = status,
+                OrderId = item.Id.ToString(),
+                DestinationDelivery = new OrderDetailsDto.DestinationDeliveryDto
+                {
+                    StreetAddress = item.DestinationDelivery.StreetAddress,
+                    AddressComplement = item.DestinationDelivery.AddressComplement,
+                    City = item.DestinationDelivery.City,
+                    Country = item.DestinationDelivery.Country,
+                    Neighborhood = item.DestinationDelivery.Neighborhood,
+                    State = item.DestinationDelivery.State.ToString(),
+                },
+                DateHourOrder = item.ScheduledTime,
+                OrderDetailsItems = item.Items.Select(s => new OrderDetailItemsDto
+                {
+                    Description = s.Description,
+                    Name = s.Name,
+                    Weight = s.Weight
+                }).ToList()
+            });
+        }
+        
+        return Ok(new
+        {
+            order
         });
     }
 

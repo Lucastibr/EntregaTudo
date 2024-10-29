@@ -139,6 +139,7 @@ export default function EnterAddressScreen() {
 
       try {
         const token = await AsyncStorage.getItem('token');
+        console.log(token);
         const response = await axios.post(`${BASE_URL}/order/getDeliveryPrice`, orderDto, {
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -169,11 +170,13 @@ export default function EnterAddressScreen() {
         DeliveryCost: deliveryCost,
       };
 
+      console.log(orderDto);
+
       var response = await axios.post(`${BASE_URL}/order`, orderDto, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      console.log(response.data);
+
 
       Alert.alert('Pedido Confirmado', 'Seu pedido foi confirmado com sucesso!');
       setModalVisible(false);
