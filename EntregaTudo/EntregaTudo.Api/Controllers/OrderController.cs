@@ -291,15 +291,17 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
     /// <param name="deliveryCode"></param>
     /// <returns></returns>
     [HttpPost("finalizeOrder")]
-    public async Task<IActionResult> FinalizeOrder(ObjectId? id, string deliveryCode)
+    public async Task<IActionResult> FinalizeOrder(ObjectId? orderId, string id, string deliveryCode)
     {
-        var domain = await orderRepository.GetAsync(id.Value);
+        var domain = await orderRepository.GetAsync(orderId.Value);
 
         if (domain == null)
             return BadRequest(new { message = "Objeto Delivery não encontrado" });
 
         if (!domain.ConfirmDelivery(deliveryCode))
             return BadRequest(new { message = "O código informado não representa ao código do pedido, tente novamente!" });
+
+        domain.DeliveryPersonId = id;
 
         await orderRepository.SaveOrUpdateAsync(domain);
 

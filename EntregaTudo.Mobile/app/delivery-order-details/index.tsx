@@ -31,8 +31,8 @@ export default function DeliveryDetailScreen({ route }: any) {
 
     try {
       var token = await AsyncStorage.getItem('token');
-      console.log(token);
-      const response = await fetch(`${BASE_URL}/order/finalizeOrder?id=${order.id}&deliveryCode=${deliveryCode}`, {
+      var id = await AsyncStorage.getItem('customerId');
+      const response = await fetch(`${BASE_URL}/order/finalizeOrder?orderId=${order.id}&id=${id}&deliveryCode=${deliveryCode}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
