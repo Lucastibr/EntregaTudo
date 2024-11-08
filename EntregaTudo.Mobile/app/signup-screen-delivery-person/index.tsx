@@ -81,13 +81,14 @@ export default function SignupScreen() {
   };
 
   const renderSuccessMessage = () => (
-    <View style={styles.successMessage}>
+    <View style={styles.successContainer}>
       <Text style={styles.successText}>Cadastro realizado com sucesso!</Text>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('login/index')}>
-        <Text style={styles.buttonText}>Ir para Login</Text>
+      <TouchableOpacity style={styles.successButton} onPress={() => navigation.navigate('login/index')}>
+        <Text style={styles.successButtonText}>Ir para Login</Text>
       </TouchableOpacity>
     </View>
   );
+  
 
   return (
     <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -234,6 +235,34 @@ const styles = StyleSheet.create({
   closeButtonText: {
     color: '#fff',
     fontSize: 16,
+  },
+  successContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    borderRadius: 10,
+  },
+  successText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#4CAF50', // Verde para indicar sucesso
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  successButton: {
+    backgroundColor: '#2196F3',
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  successButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 
