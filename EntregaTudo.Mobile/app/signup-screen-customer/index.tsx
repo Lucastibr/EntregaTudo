@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, ImageBackground, Modal, KeyboardAvoidingView, Platform } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
+import { useNavigation } from '@react-navigation/native'; // Importa o hook de navegação
 import logo from '../../assets/images/logo.jpg';
-import { BASE_URL} from '../../config';
+import { BASE_URL } from '../../config';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function SignupScreen() {
+  const navigation = useNavigation(); // Inicializa a navegação
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [documentNumber, setDocumentNumber] = useState('');
@@ -13,8 +18,15 @@ export default function SignupScreen() {
   const [password, setPassword] = useState('');
   const [signupSuccess, setSignupSuccess] = useState(false);
   const [userData, setUserData] = useState(null);
+  const [showValidationError, setShowValidationError] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleSignup = () => {
+    if (!firstName || !lastName || !documentNumber || !email || !phoneNumber || !username || !password) {
+      setShowValidationError(true);
+      return;
+    }
+
     fetch(`${BASE_URL}/customer/create`, {
       method: 'POST',
       headers: {
@@ -30,102 +42,166 @@ export default function SignupScreen() {
         password: password,
       }),
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Erro ao cadastrar usuário');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('deu certo!');
-      setUserData(data); 
-      setSignupSuccess(true);
-    })
-    .catch((error) => {
-      console.error('Erro:', error);
-    });
-  };
-
-  const renderSuccessMessage = () => {
-    return (
-      <View style={styles.successMessage}>
-        <Text style={styles.successText}>Cadastro realizado com sucesso!</Text>
-        <Text>Nome: {userData.FirstName} {userData.LastName}</Text>
-        <Text>Email: {userData.Email}</Text>
-        <Text>Telefone: {userData.PhoneNumber}</Text>
-      </View>
-    );
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao cadastrar usuário');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Cadastro realizado com sucesso!');
+        setUserData(data);
+        setSignupSuccess(true);
+      })
+      .catch((error) => {
+        console.error('Erro:', error);
+      });
   };
 
   return (
-    <ImageBackground source={logo} style={styles.background}>
-      <View style={styles.overlay}>
-        <Text style={styles.title}>Cadastro de Usuário</Text>
-        {!signupSuccess ? (
-          <>
-            <TextInput
-              style={styles.input}
-              placeholder="Nome"
-              placeholderTextColor="#888"
-              value={firstName}
-              onChangeText={setFirstName}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Sobrenome"
-              placeholderTextColor="#888"
-              value={lastName}
-              onChangeText={setLastName}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Número do Documento"
-              placeholderTextColor="#888"
-              value={documentNumber}
-              onChangeText={setDocumentNumber}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              placeholderTextColor="#888"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Telefone"
-              placeholderTextColor="#888"
-              value={phoneNumber}
-              onChangeText={setPhoneNumber}
-              keyboardType="phone-pad"
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Nome de Usuário"
-              placeholderTextColor="#888"
-              value={username}
-              onChangeText={setUsername}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Senha"
-              placeholderTextColor="#888"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-            />
-            <TouchableOpacity style={styles.button} onPress={handleSignup}>
-              <Text style={styles.buttonText}>Cadastrar</Text>
-            </TouchableOpacity>
-          </>
-        ) : renderSuccessMessage()}
-      </View>
-    </ImageBackground>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
+      <ImageBackground source={logo} style={styles.background}>
+        <View style={styles.overlay}>
+          <Text style={styles.title}>Cadastro de Usuário</Text>
+          {!signupSuccess ? (
+            <>
+              <TextInputMask
+                type={'custom'}
+                options={{
+                  mask: '**************************'
+                }}
+                style={styles.input}
+                placeholder="Nome"
+                placeholderTextColor="#888"
+                value={firstName}
+                onChangeText={setFirstName}
+              />
+              <TextInputMask
+                type={'custom'}
+                options={{
+                  mask: '**************************'
+                }}
+                style={styles.input}
+                placeholder="Sobrenome"
+                placeholderTextColor="#888"
+                value={lastName}
+                onChangeText={setLastName}
+              />
+              <TextInputMask
+                type={'cpf'}
+                options={{
+                  mask: '999.999.999-99',
+                  getMask: (value) => value.length > 11 ? '99.999.999/9999-99' : '999.999.999-99'
+                }}
+                value={documentNumber}
+                onChangeText={setDocumentNumber}
+                style={styles.input}
+                placeholder="CPF ou CNPJ"
+                placeholderTextColor="#888"
+                keyboardType="numeric"
+              />
+              <TextInputMask
+                type={'custom'}
+                options={{
+                  mask: '**************************'
+                }}
+                style={styles.input}
+                placeholder="Email"
+                placeholderTextColor="#888"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+              />
+              <TextInputMask
+                type={'cel-phone'}
+                options={{
+                  mask: '(99) 99999-9999',
+                  maskType: 'BRL'
+                }}
+                style={styles.input}
+                placeholder="Telefone"
+                placeholderTextColor="#888"
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
+                keyboardType="phone-pad"
+              />
+              <TextInputMask
+                type={'custom'}
+                options={{
+                  mask: '**************************'
+                }}
+                style={styles.input}
+                placeholder="Nome de Usuário"
+                placeholderTextColor="#888"
+                value={username}
+                onChangeText={setUsername}
+              />
+              <View style={styles.passwordContainer}>
+                <TextInputMask
+                  type={'custom'}
+                  options={{
+                    mask: '**************************'
+                  }}
+                  style={styles.passwordInput}
+                  placeholder="Senha"
+                  placeholderTextColor="#888"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry={!isPasswordVisible}
+                />
+                <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
+                  <Ionicons
+                    name={isPasswordVisible ? 'eye' : 'eye-off'}
+                    size={24}
+                    color="#888"
+                  />
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity style={styles.button} onPress={handleSignup}>
+                <Text style={styles.buttonText}>Cadastrar</Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <>
+              <Text style={styles.successText}>Cadastro realizado com sucesso!</Text>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('login/index')} // Navega para a tela de login
+              >
+                <Text style={styles.buttonText}>Ir para Login</Text>
+              </TouchableOpacity>
+            </>
+          )}
+        </View>
+
+        <Modal
+          visible={showValidationError}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={() => setShowValidationError(false)}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalText}>Erro</Text>
+              <Text style={styles.modalMessage}>Por favor, preencha todos os campos.</Text>
+              <TouchableOpacity style={styles.closeButton} onPress={() => setShowValidationError(false)}>
+                <Text style={styles.closeButtonText}>Fechar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      </ImageBackground>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   background: {
     flex: 1,
     justifyContent: 'center',
@@ -155,6 +231,22 @@ const styles = StyleSheet.create({
     color: '#000',
     borderRadius: 5,
   },
+  passwordContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    backgroundColor: '#fff',
+  },
+  passwordInput: {
+    flex: 1,
+    padding: 10,
+    color: '#000',
+  },
   button: {
     backgroundColor: '#2196F3',
     padding: 15,
@@ -168,13 +260,48 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  successMessage: {
-    alignItems: 'center',
-  },
   successText: {
     fontSize: 20,
-    fontWeight: 'bold',
     color: '#fff',
-    marginBottom: 16,
+    fontWeight: 'bold',
+    marginTop: 20,
+    textAlign: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    width: '80%',
+  },
+  modalText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#ff4444',
+    marginBottom: 10,
+  },
+  modalMessage: {
+    fontSize: 16,
+    color: '#333',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  closeButton: {
+    backgroundColor: '#2196F3',
+    padding: 10,
+    borderRadius: 5,
+    width: '100%',
+    alignItems: 'center',
+  },
+  closeButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
