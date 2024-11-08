@@ -23,6 +23,7 @@ import AvailableOrders from './available-orders';
 import DeliveryOrderDetails from './delivery-order-details';
 import SignupScreen from './signup-screen-customer';
 import SignupScreenDeliveryPerson from './signup-screen-delivery-person';
+import DeliveryPersonOrders from './orders-delivery-person';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -54,6 +55,7 @@ export default function RootLayout() {
           <Stack.Screen name="delivery-order-details/index" component={DeliveryOrderDetails} options={{ title: 'Entrega em Andamento' }} />
           <Stack.Screen name="signup-screen-customer/index" component={SignupScreen} options={{ title: 'Cadastrar Usuário' }} />
           <Stack.Screen name="signup-screen-delivery-person/index" component={SignupScreenDeliveryPerson} options={{ title: 'Cadastrar Entregador' }} />
+          <Stack.Screen name="orders-delivery-person/index" component={DeliveryPersonOrders} options={{ title: 'Minhas Entregas' }} />
         </Stack.Navigator>
     </ThemeProvider>
   );

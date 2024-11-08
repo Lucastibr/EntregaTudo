@@ -14,6 +14,7 @@ export type RootStackParamList = {
     deliveryCost: number;
   };
   'orders-customers/index': undefined;
+  'orders-delivery-person/index': undefined;
 };
 
 export type HomeScreenNavigationProp = StackNavigationProp<
@@ -59,4 +60,9 @@ export type DeliveryDetailsScreenNavigationProp = StackNavigationProp<
 export type ConfirmOrderScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
  'orders-customers/index'
+>;
+
+export type DeliveryPersonOrderNavigationProp = StackNavigationProp<
+  RootStackParamList,
+ 'orders-delivery-person/index'
 >;

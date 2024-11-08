@@ -52,6 +52,13 @@ export default function DeliveryWelcomeScreen() {
               <Text style={styles.buttonText}>Ver Entregas Disponíveis</Text>
             </TouchableOpacity>
 
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('orders-delivery-person/index')}
+            >
+              <Text style={styles.buttonText}>Minhas Entregas</Text>
+            </TouchableOpacity>
+
             {/* Botão de logout */}
             <TouchableOpacity
               style={styles.button}

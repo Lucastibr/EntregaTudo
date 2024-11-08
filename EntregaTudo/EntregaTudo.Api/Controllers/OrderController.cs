@@ -201,6 +201,54 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
     }
 
     /// <summary>
+    /// Método para buscar as entregas feitas pelo entregador
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("orders-delivery-person")]
+    public async Task<IActionResult> AllOrdersDeliveryPerson(string id)
+    {
+        if (User.Identity is not ClaimsIdentity user) return BadRequest("User not found");
+
+        if (user.FindFirst(ClaimTypes.NameIdentifier) == null)
+            return BadRequest("User not found");
+
+        var orders = orderRepository
+            .Find(x => x.DeliveryPersonId == id && x.DeliveryStatus == DeliveryStatus.Ok).ToList();
+
+        var order = new List<OrderDetailsDto>();
+
+        foreach (var item in orders)
+        {
+            order.Add(new OrderDetailsDto
+            {
+                DeliveryCost = item.DeliveryCost,
+                DestinationDelivery = new DestinationDeliveryDto
+                {
+                    StreetAddress = item.DestinationDelivery.StreetAddress,
+                    AddressComplement = item.DestinationDelivery.AddressComplement,
+                    City = item.DestinationDelivery.City,
+                    Country = item.DestinationDelivery.Country,
+                    Neighborhood = item.DestinationDelivery.Neighborhood,
+                    State = item.DestinationDelivery.State.ToString(),
+                },
+                DateHourOrder = item.ScheduledTime,
+                OrderDetailsItems = item.Items.Select(s => new OrderDetailItemsDto
+                {
+                    Description = s.Description,
+                    Name = s.Name,
+                    Weight = s.Weight
+                }).ToList()
+            });
+        }
+        
+        return Ok(new
+        {
+            order
+        });
+    }
+    
+    /// <summary>
     /// Método para o entregador buscar o pedido no cliente
     /// </summary>
     /// <param name="orderId"></param>
