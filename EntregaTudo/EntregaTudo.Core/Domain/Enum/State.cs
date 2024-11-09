@@ -5,83 +5,57 @@ namespace EntregaTudo.Core.Domain.Enum;
 public enum State
 {
     [Description("Acre")]
-    Acre,
-    
+    AC = 1,
     [Description("Alagoas")]
-    Alagoas,
-    
+    AL = 2,
     [Description("Amapá")]
-    Amapá,
-    
+    AP = 3,
     [Description("Amazonas")]
-    Amazonas,
-    
+    AM = 4,
     [Description("Bahia")]
-    Bahia,
-    
-    [Description("Ceará")]
-    Ceará,
-    
-    [Description("Distrito Federal")]
-    DistritoFederal,
-    
+    BA = 5,
+    [Description("Ceara")]
+    CE = 6,
+    [Description("Destrito Federal")]
+    DF = 7,
     [Description("Espírito Santo")]
-    EspíritoSanto,
-    
+    ES = 8,
     [Description("Goiás")]
-    Goiás,
-    
+    GO = 9,
     [Description("Maranhão")]
-    Maranhão,
-    
+    MA = 10,
     [Description("Mato Grosso")]
-    MatoGrosso,
-    
+    MT = 11,
     [Description("Mato Grosso do Sul")]
-    MatoGrossoDoSul,
-    
+    MS = 12,
     [Description("Minas Gerais")]
-    MinasGerais,
-    
+    MG = 13,
     [Description("Pará")]
-    Pará,
-    
+    PA = 14,
     [Description("Paraíba")]
-    Paraíba,
-    
+    PB = 15,
     [Description("Paraná")]
-    Paraná,
-    
+    PR = 16,
     [Description("Pernambuco")]
-    Pernambuco,
-    
+    PE = 17,
     [Description("Piauí")]
-    Piauí,
-    
+    PI = 18,
     [Description("Rio de Janeiro")]
-    RioDeJaneiro,
-    
+    RJ = 19,
     [Description("Rio Grande do Norte")]
-    RioGrandeDoNorte,
-    
+    RN = 20,
     [Description("Rio Grande do Sul")]
-    RioGrandeDoSul,
-    
+    RS = 21,
     [Description("Rondônia")]
-    Rondônia,
-    
+    RO = 22,
     [Description("Roraima")]
-    Roraima,
-    
+    RR = 23,
     [Description("Santa Catarina")]
-    SantaCatarina,
-    
+    SC = 24,
     [Description("São Paulo")]
-    SãoPaulo,
-    
+    SP = 25,
     [Description("Sergipe")]
-    Sergipe,
-    
+    SE = 26,
     [Description("Tocantins")]
-    Tocantins
+    TO = 27
 }

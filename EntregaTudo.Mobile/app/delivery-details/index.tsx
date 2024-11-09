@@ -42,6 +42,7 @@ export default function DeliveryDetailsScreen() {
           params: { id: id },
           headers: { Authorization: `Bearer ${token}` },
         });
+        console.log(response.data);
         setOrderDetails(response.data);
       } catch (error) {
         console.error('Erro ao obter detalhes do pedido:', error);
@@ -98,7 +99,6 @@ export default function DeliveryDetailsScreen() {
           <View key={index} style={styles.itemBox}>
             <Text style={styles.detail}>📦 Nome: {item.name}</Text>
             <Text style={styles.detail}>📝 Descrição: {item.description}</Text>
-            <Text style={styles.detail}>⚖️ Peso: {item.weight} kg</Text>
           </View>
         ))}
 

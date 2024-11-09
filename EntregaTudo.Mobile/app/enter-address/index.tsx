@@ -251,8 +251,8 @@ export default function EnterAddressScreen() {
           {deliveryCost !== null ? (
             <>
               <Text style={styles.modalText}>Item: {item}</Text>
-              <Text style={styles.modalText}>Endereço: {`${address.street}, ${number} - ${address.city}, ${address.state}`}</Text>
-              <Text style={styles.modalText}>Valor da Entrega: R$ {deliveryCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</Text>
+              <Text style={styles.modalText}>Endereço da Entrega: {`${address.street}, ${number} - ${address.city}, ${address.state}`}</Text>
+              <Text style={styles.modalText}>Valor da Entrega: {deliveryCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</Text>
               <TouchableOpacity style={styles.modalButton} onPress={handleConfirmOrder}>
                 <Text style={styles.modalButtonText}>Efetuar Pedido</Text>
               </TouchableOpacity>

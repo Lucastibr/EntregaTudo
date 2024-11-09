@@ -70,31 +70,39 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
         if (user.FindFirst(ClaimTypes.NameIdentifier) == null)
             return BadRequest("User not found");
 
+        var origin = await CepHelper.SearchAddress(orderDto.AddressOrigin.PostalCode);
+        var destiny = await CepHelper.SearchAddress(orderDto.AddressDestiny.PostalCode);
+
+        Enum.TryParse(origin.State, out State stateOrigin);
+        Enum.TryParse(destiny.State, out State stateDestiny);
+
         var order = new Order
         {
             OriginDelivery = new Address
             {
-                PostalCode = orderDto.AddressOrigin.PostalCode,
+                PostalCode = origin.PostalCode,
                 AddressComplement = orderDto.AddressOrigin.AddressComplement,
-                City = orderDto.AddressOrigin.City,
-                Country = orderDto.AddressOrigin.Country,
-                Latitude = orderDto.AddressOrigin.Latitude,
-                Longitude = orderDto.AddressOrigin.Longitude,
-                Neighborhood = orderDto.AddressOrigin.Neighborhood,
+                City = origin.City,
+                Country = "Brasil",
+                Latitude = Convert.ToDouble(origin.Lat),
+                Longitude = Convert.ToDouble(origin.Lng),
+                Neighborhood = origin.District,
                 NumberAddress = orderDto.AddressOrigin.NumberAddress,
-                StreetAddress = orderDto.AddressOrigin.StreetAddress
+                StreetAddress = origin.Address,
+                State = stateOrigin
             },
             DestinationDelivery = new Address
             {
-                PostalCode = orderDto.AddressDestiny.PostalCode,
-                AddressComplement = orderDto.AddressDestiny.AddressComplement,
-                City = orderDto.AddressDestiny.City,
-                Country = orderDto.AddressDestiny.Country,
-                Latitude = orderDto.AddressDestiny.Latitude,
-                Longitude = orderDto.AddressDestiny.Longitude,
-                Neighborhood = orderDto.AddressDestiny.Neighborhood,
-                NumberAddress = orderDto.AddressDestiny.NumberAddress,
-                StreetAddress = orderDto.AddressDestiny.StreetAddress
+                PostalCode = destiny.PostalCode,
+                AddressComplement = orderDto.AddressOrigin.AddressComplement,
+                City = destiny.City,
+                Country = "Brasil",
+                Latitude = Convert.ToDouble(destiny.Lat),
+                Longitude = Convert.ToDouble(destiny.Lng),
+                Neighborhood = destiny.District,
+                NumberAddress = orderDto.AddressOrigin.NumberAddress,
+                StreetAddress = destiny.Address,
+                State = stateDestiny
             },
             DeliveryCost = orderDto.DeliveryCost.Value,
             DeliveryNote = "",
@@ -114,7 +122,7 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
 
         return Ok(new
         {
-            Id =order.Id.ToString(),
+            Id = order.Id.ToString(),
             order.DeliveryCode,
             order.DeliveryCost,
             order.DestinationDelivery,
@@ -141,7 +149,6 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
         });
     }
 
-
     /// <summary>
     /// Método para buscar os pedidos do cliente
     /// </summary>
@@ -159,7 +166,7 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
 
         var order = new List<OrderDetailsDto>();
 
-        foreach (var item in orders)
+        foreach (var item in orders.OrderByDescending(x => x.ScheduledTime))
         {
             var status = item.DeliveryStatus.ToString() switch
             {
@@ -175,7 +182,7 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
                 DeliveryCost = item.DeliveryCost,
                 DeliveryStatus = status,
                 OrderId = item.Id.ToString(),
-                DestinationDelivery = new OrderDetailsDto.DestinationDeliveryDto
+                DestinationDelivery = new DestinationDeliveryDto
                 {
                     StreetAddress = item.DestinationDelivery.StreetAddress,
                     AddressComplement = item.DestinationDelivery.AddressComplement,
@@ -193,7 +200,7 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
                 }).ToList()
             });
         }
-        
+
         return Ok(new
         {
             order
@@ -218,7 +225,7 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
 
         var order = new List<OrderDetailsDto>();
 
-        foreach (var item in orders)
+        foreach (var item in orders.OrderByDescending(x => x.ScheduledTime))
         {
             order.Add(new OrderDetailsDto
             {
@@ -241,13 +248,13 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
                 }).ToList()
             });
         }
-        
+
         return Ok(new
         {
             order
         });
     }
-    
+
     /// <summary>
     /// Método para o entregador buscar o pedido no cliente
     /// </summary>

@@ -4,6 +4,7 @@ import logo from '../../assets/images/logo.jpg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { BASE_URL} from '../../config';
+import axios from 'axios';
 
 export default function DeliveryDetailScreen({ route }: any) {
   const { order } = route.params;
@@ -11,10 +12,11 @@ export default function DeliveryDetailScreen({ route }: any) {
   const [deliveryCode, setDeliveryCode] = useState('');
   const navigation = useNavigation();
 
-  const handleOpenWaze = () => {
-    console.log(order.address.latitude);
-    console.log(order.address.longitude);
-    const wazeUrl = `https://waze.com/ul?ll=${order.address.latitude},${order.address.longitude}&navigate=yes`;
+  const  handleOpenWaze = async () => {
+    const response = await axios.get(`https://cep.awesomeapi.com.br/json/${order.address.postalCode}`);
+    console.log(response.data);
+    const { lat, lng } = response.data;
+    const wazeUrl = `https://waze.com/ul?ll=${lat},${lng}&navigate=yes`;
     Linking.openURL(wazeUrl);
   };
 

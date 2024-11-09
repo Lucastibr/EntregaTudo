@@ -24,7 +24,7 @@ public class Address : MongoEntity
     public string AddressComplement { get; set; }
 
     /// <summary>
-    /// Complemento do Endereço
+    /// Bairro do Endereço
     /// </summary>
     public string Neighborhood { get; set; }
 

@@ -72,7 +72,6 @@ export default function OrderCustomer() {
         <View key={index} style={styles.itemContainer}>
           <Text style={styles.detail}>Nome: {orderItem.name}</Text>
           <Text style={styles.detail}>Descrição: {orderItem.description}</Text>
-          <Text style={styles.detail}>Peso: {orderItem.weight} kg</Text>
         </View>
       ))}
     </View>
