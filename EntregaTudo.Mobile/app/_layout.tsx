@@ -42,7 +42,8 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <NavigationContainer theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack.Navigator>
           <Stack.Screen name="home-screen/index" component={HomeScreen} options={{ title: 'Home' }} />
           <Stack.Screen name="login/index" component={Login} options={{ title: 'Login' }} />
@@ -57,6 +58,7 @@ export default function RootLayout() {
           <Stack.Screen name="signup-screen-delivery-person/index" component={SignupScreenDeliveryPerson} options={{ title: 'Cadastrar Entregador' }} />
           <Stack.Screen name="orders-delivery-person/index" component={DeliveryPersonOrders} options={{ title: 'Minhas Entregas' }} />
         </Stack.Navigator>
-    </ThemeProvider>
+      </ThemeProvider>
+    </NavigationContainer>
   );
 }

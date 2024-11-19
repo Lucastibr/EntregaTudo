@@ -117,7 +117,7 @@ export default function DeliveryDetailsScreen() {
           style={styles.button}
           onPress={() => navigation.navigate('home-screen/index')}
         >
-          <Text style={styles.buttonText}>Inicio</Text>
+          <Text style={styles.buttonText}>Voltar ao Inicio</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
