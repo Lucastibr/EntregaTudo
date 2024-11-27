@@ -143,8 +143,11 @@ public class DeliveryPersonController(
         phoneNumber = phoneNumber.Trim();
 
         TwilioClient.Init(twillioSettings.AccountSid, twillioSettings.AuthToken);
+
+        var number = $"+{phoneNumber}";
+
         var messageOptions = new CreateMessageOptions(
-            new PhoneNumber($"+{phoneNumber}"))
+            new PhoneNumber(number))
         {
             From = new PhoneNumber(twillioSettings.FromNumber),
             Body = message
