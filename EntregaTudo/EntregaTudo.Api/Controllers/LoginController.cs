@@ -75,7 +75,7 @@ public class LoginController(
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-        var claims = new[]
+        var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, person.Id.ToString()),
             new Claim("FirstName", person.FirstName),
@@ -86,10 +86,17 @@ public class LoginController(
             new Claim("PersonType", person.PersonType.ToString())
         };
 
+        if(person.PersonType.ToString() == "DeliveryPerson" && person.Vehicle?.LicensePlate != null)
+        {
+            claims.Add(new Claim("LicensePlate", person.Vehicle.LicensePlate));
+        }
+
+        var claimsArray = claims.ToArray();
+
         var token = new JwtSecurityToken(
             config["Jwt:Issuer"],
             config["Jwt:Audience"],
-            claims,
+            claimsArray,
             expires: DateTime.Now.AddMinutes(Convert.ToDouble(config["Jwt:ExpireMinutes"])),
             signingCredentials: creds);
 

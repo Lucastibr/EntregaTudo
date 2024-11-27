@@ -265,11 +265,6 @@ public class OrderController(IWebHostEnvironment webHostEnvironment,
     [HttpPost("sendOrder")]
     public async Task<IActionResult> SendOrder(ObjectId? orderId, string deliveryPersonId, string? deliveryPersonCode)
     {
-        /*
-         O que pensei, gerar dois codigos, um para o entregador, outro para quem irá receber, só vai mudar o status do pedido
-        depois que o entregador informar o codigo do delivery, aí vamos gerar outro codigo, para assim ser finalizado e pago. 
-        Caso de uso: O entregador irá buscar o pedido na casa do cliente, assim, o cliente irá informar o codigo, e o entregador irá confirmar nesse metodo, na hora que for entregar o pedido, o usuario que irá receber irá passar o codigo novo para o entregador que será finalizado o pedido.
-         */
         var domain = await orderRepository.GetAsync(orderId.Value);
 
         if (domain == null)

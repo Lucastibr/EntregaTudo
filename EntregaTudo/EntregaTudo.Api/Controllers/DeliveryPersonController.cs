@@ -1,5 +1,4 @@
 ﻿using EntregaTudo.Api.Controllers.Base;
-using EntregaTudo.Core.Domain.Business.Delivery;
 using EntregaTudo.Core.Domain.Business.Vehicle;
 using EntregaTudo.Core.Domain.Enum;
 using EntregaTudo.Core.Domain.User;
@@ -21,6 +20,7 @@ public class DeliveryPersonController(
     ILogger<DeliveryPersonController> logger,
     IServiceProvider serviceProvider,
     IDeliveryPersonRepository repository,
+    ICustomerRepository customerRepository,
     IOrderRepository orderRepository)
     : RestApiControllerBase<IDeliveryPersonRepository, DeliveryPerson, DeliveryPersonDto>(webHostEnvironment, logger,
         serviceProvider, repository)
@@ -84,6 +84,13 @@ public class DeliveryPersonController(
     [HttpGet("available-orders")]
     public async Task<IActionResult> AvailableOrders()
     {
+        if (User.Identity is { IsAuthenticated: false })
+            return Unauthorized();
+
+        var firstName = User.FindFirst("FirstName")?.Value;
+        var lastName = User.FindFirst("LastName")?.Value;
+        var licensePlate = User.FindFirst("LicensePlate")?.Value;
+
         var orders = orderRepository.Find(x => x.DeliveryStatus == DeliveryStatus.Pending)
             .ToList();
         
@@ -101,7 +108,10 @@ public class DeliveryPersonController(
                 Latitude = s.DestinationDelivery.Latitude,
                 Longitude = s.DestinationDelivery.Longitude,
             },
-            OrderPrice = s.DeliveryCost 
+            OrderPrice = s.DeliveryCost,
+            DeliveryPersonName = $"{firstName} {lastName}",
+            PhoneNumber = customerRepository.Find(x => x.Id == ObjectId.Parse(s.CustomerId)).FirstOrDefault()?.PhoneNumber,
+            LicensePlate = licensePlate
         }).ToList();
 
         return Json(new {data = ordersAvailable});

@@ -1,6 +1,4 @@
-﻿using EntregaTudo.Shared.Dto.Base;
-
-namespace EntregaTudo.Shared.Dto;
+﻿namespace EntregaTudo.Shared.Dto;
 
 /// <summary>
 /// Dto das entregas disponíveis
@@ -14,4 +12,10 @@ public class AvailableOrdersDto
     public string DeliveryCode { get; set; }
 
     public string Id { get; set; }
+
+    public string? PhoneNumber {get; set;}
+
+    public string? LicensePlate {get; set;}
+
+    public string? DeliveryPersonName {get; set;}
 }
