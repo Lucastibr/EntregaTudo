@@ -1,4 +1,5 @@
 ﻿using EntregaTudo.Api.Controllers.Base;
+using EntregaTudo.Api.Helpers;
 using EntregaTudo.Core.Domain.Business.Vehicle;
 using EntregaTudo.Core.Domain.Enum;
 using EntregaTudo.Core.Domain.User;
@@ -24,7 +25,8 @@ public class DeliveryPersonController(
     IServiceProvider serviceProvider,
     IDeliveryPersonRepository repository,
     ICustomerRepository customerRepository,
-    IOrderRepository orderRepository)
+    IOrderRepository orderRepository,
+    TwillioSettings twillioSettings)
     : RestApiControllerBase<IDeliveryPersonRepository, DeliveryPerson, DeliveryPersonDto>(webHostEnvironment, logger,
         serviceProvider, repository)
 {
@@ -138,16 +140,13 @@ public class DeliveryPersonController(
     public async Task SendMessageToCustomer(string phoneNumber, string message)
     {
         //TODO: Atualizar o status do pedido por aqui, buscar o nome do usuario e setar o pedido pro status em andamento.
-        const string accountSid = "AC400357ea5364938c079f607073c92ebf";
-        const string authToken = "bca6daf375d363e1459fd9be6f971d61";
-
         phoneNumber = phoneNumber.Trim();
 
-        TwilioClient.Init(accountSid, authToken);
+        TwilioClient.Init(twillioSettings.AccountSid, twillioSettings.AuthToken);
         var messageOptions = new CreateMessageOptions(
             new PhoneNumber($"+{phoneNumber}"))
         {
-            From = new PhoneNumber("+15082528956"),
+            From = new PhoneNumber(twillioSettings.FromNumber),
             Body = message
         };
         var result = await MessageResource.CreateAsync(messageOptions);

@@ -1,4 +1,5 @@
 using System.Text;
+using EntregaTudo.Api.Helpers;
 using EntregaTudo.Mongo.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -8,6 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMongo(builder.Configuration);
 
 var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty);
+
+var twillioSettings = builder.Configuration.GetSection("TwillioSettings").Get<TwillioSettings>();
+
+if(twillioSettings != null)
+{
+    builder.Services.AddSingleton(x => twillioSettings);
+}
 
 builder.Services.AddAuthentication(x =>
     {
