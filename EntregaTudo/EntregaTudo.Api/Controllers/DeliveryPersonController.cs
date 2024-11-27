@@ -7,6 +7,9 @@ using EntregaTudo.Shared.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 using VehicleStatus = EntregaTudo.Shared.Enums.VehicleStatus;
 using VehicleType = EntregaTudo.Shared.Enums.VehicleType;
 
@@ -93,27 +96,62 @@ public class DeliveryPersonController(
 
         var orders = orderRepository.Find(x => x.DeliveryStatus == DeliveryStatus.Pending)
             .ToList();
+
+        // Obter os IDs de clientes de forma única para evitar buscas repetidas
+        var customerIds = orders.Select(o => o.CustomerId).Distinct().ToList();
+
+        // Buscar todos os clientes necessários de uma vez
+        var customers = customerRepository
+            .Find(x => customerIds.Contains(x.Id.ToString()))
+            .ToDictionary(x => x.Id.ToString(), x => x);
         
-        var ordersAvailable = orders.Select(s => new AvailableOrdersDto
+        var ordersAvailable = orders.Select(s => 
         {
-            Id = s.Id.ToString(),
-            DeliveryCode = s.DeliveryCode,
-            Address = new AddressDto
+            var customer = customers.GetValueOrDefault(s.CustomerId);
+
+            return new AvailableOrdersDto
             {
-                AddressComplement = s.DestinationDelivery.AddressComplement,
-                City = s.DestinationDelivery.City,
-                StreetAddress = s.DestinationDelivery.StreetAddress,
-                Neighborhood = s.DestinationDelivery.Neighborhood,
-                PostalCode = s.DestinationDelivery.PostalCode,
-                Latitude = s.DestinationDelivery.Latitude,
-                Longitude = s.DestinationDelivery.Longitude,
-            },
-            OrderPrice = s.DeliveryCost,
-            DeliveryPersonName = $"{firstName} {lastName}",
-            PhoneNumber = customerRepository.Find(x => x.Id == ObjectId.Parse(s.CustomerId)).FirstOrDefault()?.PhoneNumber,
-            LicensePlate = licensePlate
+                Id = s.Id.ToString(),
+                DeliveryCode = s.DeliveryCode,
+                Address = new AddressDto
+                {
+                    AddressComplement = s.DestinationDelivery.AddressComplement,
+                    City = s.DestinationDelivery.City,
+                    StreetAddress = s.DestinationDelivery.StreetAddress,
+                    Neighborhood = s.DestinationDelivery.Neighborhood,
+                    PostalCode = s.DestinationDelivery.PostalCode,
+                    Latitude = s.DestinationDelivery.Latitude,
+                    Longitude = s.DestinationDelivery.Longitude,
+                },
+                OrderPrice = s.DeliveryCost,
+                DeliveryPersonName = $"{firstName} {lastName}",
+                PhoneNumber = customer?.PhoneNumber,
+                LicensePlate = licensePlate,
+                CustomerName = $"{customer?.FirstName}"
+            };
         }).ToList();
 
         return Json(new {data = ordersAvailable});
+    }
+
+    [HttpPost("send")]
+    public async Task SendMessageToCustomer(string phoneNumber, string message)
+    {
+        //TODO: Atualizar o status do pedido por aqui, buscar o nome do usuario e setar o pedido pro status em andamento.
+        const string accountSid = "AC400357ea5364938c079f607073c92ebf";
+        const string authToken = "bca6daf375d363e1459fd9be6f971d61";
+
+        phoneNumber = phoneNumber.Trim();
+
+        TwilioClient.Init(accountSid, authToken);
+        var messageOptions = new CreateMessageOptions(
+            new PhoneNumber($"+{phoneNumber}"))
+        {
+            From = new PhoneNumber("+15082528956"),
+            Body = message
+        };
+        var result = await MessageResource.CreateAsync(messageOptions);
+
+        var data = result.Body;
     }
 }

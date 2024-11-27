@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -20,6 +20,43 @@ export default function DeliveryDetailScreen({ route }: any) {
   const { order } = route.params;
   const [deliveryCode, setDeliveryCode] = useState('');
   const navigation = useNavigation();
+
+  // Função para formatar o número de telefone
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = phoneNumber.replace(/\D/g, ''); // Remove caracteres não numéricos
+    return `+55${cleaned}`; // Ajuste o formato conforme necessário
+  };
+
+  // Função para enviar mensagem via API C#
+  const sendMessageToApi = async () => {
+    const formattedPhoneNumber = formatPhoneNumber(order.phoneNumber);
+    const message = `Olá, ${order.customerName}! Seu pedido está a caminho! A entrega será feita por ${order.deliveryPersonName}, Placa ${order.licensePlate}! Fique ligado!`;
+    console.log(formattedPhoneNumber);
+    console.log(message);
+    const response = await fetch(
+      `${BASE_URL}/deliveryPerson/send?phoneNumber=${formattedPhoneNumber}&message=${message}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }
+    );
+
+    if (response.ok) {
+     
+    } else {
+      const text = await response.text();
+      console.log(text)
+      const errorData = JSON.parse(text);
+      Alert.alert('Erro', errorData.message || 'Erro ao finalizar o pedido.');
+    }
+  };
+
+  // Enviar mensagem ao carregar a tela
+  useEffect(() => {
+    sendMessageToApi();
+  }, []);
 
   const handleOpenWaze = async () => {
     try {

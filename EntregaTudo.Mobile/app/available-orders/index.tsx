@@ -20,6 +20,9 @@ interface Order {
     longitude: number;
   };
   orderPrice: number;
+  phoneNumber: string;
+  licensePlate : string;
+  deliveryPersonName : string;
 }
 
 export default function AvailableDeliveriesScreen() {

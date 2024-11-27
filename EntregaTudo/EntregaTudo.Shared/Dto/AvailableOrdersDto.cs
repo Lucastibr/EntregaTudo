@@ -18,4 +18,5 @@ public class AvailableOrdersDto
     public string? LicensePlate {get; set;}
 
     public string? DeliveryPersonName {get; set;}
+    public string? CustomerName {get; set;}
 }

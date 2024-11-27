@@ -87,10 +87,8 @@ public class LoginController(
         };
 
         if(person.PersonType.ToString() == "DeliveryPerson" && person.Vehicle?.LicensePlate != null)
-        {
             claims.Add(new Claim("LicensePlate", person.Vehicle.LicensePlate));
-        }
-
+        
         var claimsArray = claims.ToArray();
 
         var token = new JwtSecurityToken(
