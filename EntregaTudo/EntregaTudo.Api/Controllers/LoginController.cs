@@ -53,15 +53,15 @@ public class LoginController(
 
         person = customer.GetPersonByEmail(login.Email) ?? (Person?)deliveryPerson.GetDeliveryPersonByEmail(login.Email);
 
-        if(person == null)
-            return Unauthorized();
-
+        if (person == null)
+            return Unauthorized(new { message = "Usuário não encontrado." });
+        
         var authenticate = person.PersonType == PersonType.User
             ? customer.VerifyPassword(login.Password, person.PasswordHash)
             : deliveryPerson.VerifyPassword(login.Password, person.PasswordHash);
 
         if (!authenticate)
-            return Unauthorized();
+            return Unauthorized(new { message = "Senha inválida." });
         
         var token = GenerateJwtToken(person);
 

@@ -20,6 +20,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         email,
         password,
       });
+  
       const { token, customerId, userName, userType } = response.data;
       
       await AsyncStorage.setItem('token', token);
@@ -28,16 +29,17 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       await AsyncStorage.setItem('userType', userType);
       
       Alert.alert('Login realizado com sucesso');
-
+  
       if (userType === 'DeliveryPerson') {
         navigation.navigate('delivery-person-home-screen/index');
       } else {
         navigation.navigate('home-screen/index');
       }
-    } catch (error: unknown) {
+    } catch (error) {
       console.log(error);
       if (axios.isAxiosError(error)) {
-        Alert.alert('Erro ao fazer login', error.response?.data?.message || 'Erro desconhecido');
+        const message = error.response?.data?.message || 'Erro desconhecido';
+        Alert.alert('Erro ao fazer login', message);
       } else if (error instanceof Error) {
         Alert.alert('Erro ao fazer login', error.message);
       } else {
@@ -45,7 +47,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       }
     }
   };
-
+  
   return (
     <ImageBackground source={logo} style={styles.background}>
       <View style={styles.overlay}>
