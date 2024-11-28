@@ -4,7 +4,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LoginScreenNavigationProp } from '../../components/types';
 import logo from '../../assets/images/logo.jpg';
-import { BASE_URL} from '../../config';
+import { BASE_URL } from '../../config';
 
 type Props = {
   navigation: LoginScreenNavigationProp;
@@ -20,16 +20,16 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         email,
         password,
       });
-  
+
       const { token, customerId, userName, userType } = response.data;
-      
+
       await AsyncStorage.setItem('token', token);
       await AsyncStorage.setItem('customerId', customerId);
       await AsyncStorage.setItem('userName', userName);
       await AsyncStorage.setItem('userType', userType);
-      
+
       Alert.alert('Login realizado com sucesso');
-  
+
       if (userType === 'DeliveryPerson') {
         navigation.navigate('delivery-person-home-screen/index');
       } else {
@@ -47,10 +47,11 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       }
     }
   };
-  
+
   return (
     <ImageBackground source={logo} style={styles.background}>
       <View style={styles.overlay}>
+        <Text style={styles.title}>Bem Vindo ao Entrega Tudo</Text>
         <TextInput
           placeholder="Email"
           style={styles.input}
@@ -88,14 +89,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  input: {
-    width: '100%',
-    backgroundColor: '#fff',
-    padding: 10,
-    marginBottom: 16,
-    borderRadius: 5,
-    color: '#000',
-  },
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     flex: 1,
@@ -103,6 +96,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     padding: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  input: {
+    width: '100%',
+    backgroundColor: '#fff',
+    padding: 10,
+    marginBottom: 16,
+    borderRadius: 5,
+    color: '#000',
   },
   button: {
     backgroundColor: '#2196F3',
