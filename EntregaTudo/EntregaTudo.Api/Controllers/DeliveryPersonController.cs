@@ -137,11 +137,17 @@ public class DeliveryPersonController(
     }
 
     [HttpPost("send")]
-    public async Task SendMessageToCustomer(string phoneNumber, string message)
+    public async Task SendMessageToCustomer(string phoneNumber, string message, string orderId)
     {
-        //TODO: Atualizar o status do pedido por aqui, buscar o nome do usuario e setar o pedido pro status em andamento.
-        //Verificar porque nao tá fazendo o push
         phoneNumber = phoneNumber.Trim();
+
+        var id = ObjectId.Parse(orderId);
+
+        var order = await orderRepository.GetAsync(id);
+
+        order.DeliveryStatus = DeliveryStatus.Sended;
+
+        await orderRepository.SaveOrUpdateAsync(order);
 
         TwilioClient.Init(twillioSettings.AccountSid, twillioSettings.AuthToken);
 
@@ -153,8 +159,7 @@ public class DeliveryPersonController(
             From = new PhoneNumber(twillioSettings.FromNumber),
             Body = message
         };
-        var result = await MessageResource.CreateAsync(messageOptions);
 
-        var data = result.Body;
+       await MessageResource.CreateAsync(messageOptions);
     }
 }

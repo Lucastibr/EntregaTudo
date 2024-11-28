@@ -31,10 +31,9 @@ export default function DeliveryDetailScreen({ route }: any) {
   const sendMessageToApi = async () => {
     const formattedPhoneNumber = formatPhoneNumber(order.phoneNumber);
     const message = `Olá, ${order.customerName}! Seu pedido está a caminho! A entrega será feita por ${order.deliveryPersonName}, Placa ${order.licensePlate}! Fique ligado!`;
-    console.log(formattedPhoneNumber);
-    console.log(message);
+    var id = String(order.id);
     const response = await fetch(
-      `${BASE_URL}/deliveryPerson/send?phoneNumber=${formattedPhoneNumber}&message=${message}`,
+      `${BASE_URL}/deliveryPerson/send?phoneNumber=${formattedPhoneNumber}&message=${message}&orderId=${id}`,
       {
         method: 'POST',
         headers: {
