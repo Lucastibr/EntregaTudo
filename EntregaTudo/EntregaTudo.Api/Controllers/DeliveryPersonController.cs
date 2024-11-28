@@ -140,6 +140,7 @@ public class DeliveryPersonController(
     public async Task SendMessageToCustomer(string phoneNumber, string message)
     {
         //TODO: Atualizar o status do pedido por aqui, buscar o nome do usuario e setar o pedido pro status em andamento.
+        //Verificar porque nao tá fazendo o push
         phoneNumber = phoneNumber.Trim();
 
         TwilioClient.Init(twillioSettings.AccountSid, twillioSettings.AuthToken);
